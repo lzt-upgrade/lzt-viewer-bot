@@ -12,5 +12,11 @@ export const linkToView: LinkToView<NumExtractedLink> | LinkToView<StrExtractedL
   "post-comment": PostCommentView.getInfo,
   "profile-post": ProfilePostView.getInfo,
   member: UserView.getInfo,
-  custom: UserView.getInfo,
+  custom: async (val) => {
+    if (val === "new-features") {
+      return await ThreadView.getInfo(1226276);
+    }
+
+    return await UserView.getInfo(val);
+  },
 } as const;

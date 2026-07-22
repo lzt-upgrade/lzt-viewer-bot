@@ -47,7 +47,7 @@ const PROFILE_POST_PATH_REGEX = /\/profile-posts\/(\d+)/;
 // const PROFILE_POST_COMMENT_PATH_REGEX = /\/profile-posts\/comments\/(\d+)/;
 const MEMBER_PATH_REGEX = /\/members\/(\d+)/;
 const CUSTOM_PATH_REGEX =
-  /^\/(?!(?:threads|rules|articles|guarantor|antipublic|members|banned|search|conversations|support-tickets|logout|login|register|(profile-)?posts|me)$)([a-zA-Z0-9]+)\/?$/;
+  /^\/(?!(?:threads|rules|articles|guarantor|antipublic|members|banned|search|conversations|support-tickets|logout|login|register|(profile-)?posts|me)$)([a-zA-Z0-9-]+)\/?$/;
 
 const DEFAULT_EXTRACT = (match: RegExpExecArray): number | undefined =>
   match.length > 1 ? Number(match[1]) : undefined;
@@ -128,6 +128,14 @@ export const extractFromUrl = (url: URL): ExtractedLink | undefined => {
   return undefined;
 };
 
+const parseURL = (urlText: string): URL => {
+  if (/http(s):\/\//.exec(urlText)) {
+    return new URL(urlText);
+  }
+
+  return new URL(`https://${urlText}`);
+};
+
 export const extractForumLinks = (textWithEntities: TextWithEntities): ExtractedLink[] => {
   const entitiesWithUrl = textWithEntities.entities?.filter((entity) =>
     ENTITY_WITH_URL.includes(entity._),
@@ -139,7 +147,7 @@ export const extractForumLinks = (textWithEntities: TextWithEntities): Extracted
   const extractedLinks = entitiesWithUrl
     .map((entity) => {
       if (entity._ === "messageEntityTextUrl") {
-        return extractFromUrl(new URL(entity.url));
+        return extractFromUrl(parseURL(entity.url));
       }
 
       if (entity._ === "messageEntityUrl") {
@@ -147,7 +155,7 @@ export const extractForumLinks = (textWithEntities: TextWithEntities): Extracted
         const textEnd = offset + entity.length;
         const urlText = textWithEntities.text.slice(offset, textEnd);
         try {
-          return extractFromUrl(new URL(urlText));
+          return extractFromUrl(parseURL(urlText));
         } catch {
           console.error(`Invalid URL: ${urlText}`);
           return undefined;

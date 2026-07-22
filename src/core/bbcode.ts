@@ -10,8 +10,7 @@ type TagsDefination = Parameters<typeof createPreset>[0];
 type TagDefinationFunc = TagsDefination[keyof TagsDefination];
 type Tags = Record<string, TagDefinationFunc>;
 
-const LOCALIZED_HIDDEN_CONTENT =
-  env.LOCALE === "ru" ? "Скрытый контент" : "Hidden content";
+const LOCALIZED_HIDDEN_CONTENT = env.LOCALE === "ru" ? "Скрытый контент" : "Hidden content";
 const DEFAULT_SPOILER_TITLE = env.LOCALE === "ru" ? "Спойлер" : "Spoiler";
 const DEFAULT_IMG_TEXT = "[IMG]";
 const DEFAULT_MEDIA_TEXT = "[MEDIA]";
@@ -19,22 +18,8 @@ const DEFAULT_VISITOR_TEXT = "lztviewer";
 const DEFAULT_VISITOR_LINK = "https://github.com/lzt-upgrade/lzt-viewer-bot";
 const DEFAULT_API_TEXT = "[API]";
 const DEFAULT_HIDDEN_CONTENT_TEXT = `[${LOCALIZED_HIDDEN_CONTENT}]`;
-const TAGS_TO_CLEAN = [
-  "size",
-  "color",
-  "tooltip",
-  "left",
-  "center",
-  "right",
-] as const;
-const CONTEXT_FREE_TAGS = [
-  "code",
-  "src",
-  "srci",
-  "plain",
-  "php",
-  "html",
-] as const;
+const TAGS_TO_CLEAN = ["size", "color", "tooltip", "left", "center", "right"] as const;
+const CONTEXT_FREE_TAGS = ["code", "src", "srci", "plain", "php", "html"] as const;
 
 // parsed from lzt.market
 export const CURRENCY_SYMBOLS = {
@@ -249,9 +234,7 @@ const bbcode: Tags = {
   },
   quote: (node) => {
     const username = getFirstTag(node);
-    const content = username
-      ? [getNodeText(node), `\n(c) ${username}`]
-      : node.content;
+    const content = username ? [getNodeText(node), `\n(c) ${username}`] : node.content;
     return {
       tag: "blockquote",
       attrs: {
@@ -334,9 +317,7 @@ const bbcode: Tags = {
   "Скрытый контент": hiddenContentBBCode,
   "Hidden content": hiddenContentBBCode,
   price: (node) => {
-    const currency = getFirstTag(node)?.toLowerCase() as
-      | keyof typeof CURRENCY_SYMBOLS
-      | undefined;
+    const currency = getFirstTag(node)?.toLowerCase() as keyof typeof CURRENCY_SYMBOLS | undefined;
     const currencySymbol = CURRENCY_SYMBOLS[currency ?? "rub"];
     return {
       tag: "span",
@@ -359,18 +340,15 @@ const PRESET_CLEANER_TAGS = TAGS_TO_CLEAN.reduce<Tags>((result, tag) => {
   return result;
 }, {});
 
-const BBCODE_TAGS = Object.entries(bbcode).reduce<Tags>(
-  (result, [key, value]) => {
-    if (key === "default") {
-      return result;
-    }
-
-    result[key] = value;
-    result[key.toUpperCase()] = value;
+const BBCODE_TAGS = Object.entries(bbcode).reduce<Tags>((result, [key, value]) => {
+  if (key === "default") {
     return result;
-  },
-  {},
-);
+  }
+
+  result[key] = value;
+  result[key.toUpperCase()] = value;
+  return result;
+}, {});
 
 // https://github.com/JiLiZART/BBob/pull/316
 const forumPreset = createPreset({
@@ -392,7 +370,8 @@ export const transform = (bbText: string) => {
 
 export const getTextByBBcode = (bbText: string, plainText: string) => {
   if (bbText) {
-    return thtml(truncateHtml(transform(bbText).html, 1024));
+    const text = truncateHtml(transform(bbText).html, 1024).replace(/(\n)+/g, "\n");
+    return thtml(text);
   }
 
   if (plainText.length > 1024) {

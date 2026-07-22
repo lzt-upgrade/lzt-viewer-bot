@@ -52,11 +52,7 @@ const actionHander = async (
 };
 
 dp.onCallbackQuery(MemberButton.filter({ action: "info" }), async (upd) => {
-  await actionHander(
-    upd,
-    async () => await UserView.getInfo(upd.match.id),
-    i18n.error.noUserFound,
-  );
+  await actionHander(upd, async () => await UserView.getInfo(upd.match.id), i18n.error.noUserFound);
 });
 
 dp.onCallbackQuery(ThreadButton.filter({ action: "info" }), async (upd) => {

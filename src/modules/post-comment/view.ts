@@ -16,26 +16,17 @@ export abstract class PostCommentView {
       return;
     }
 
-    const messageText = getTextByBBcode(
-      postComment.bbText,
-      postComment.plainText,
-    );
+    const messageText = getTextByBBcode(postComment.bbText, postComment.plainText);
 
     return {
-      message: html`<b
-          >📄 <a href="${postComment.link}">${i18n.post.main} </a>
-        </b>
+      message: html`<b>📄 <a href="${postComment.link}">${i18n.post.main} </a> </b>
         ${i18n.post.by}
         <a href="${postComment.owner.link}"> ${postComment.owner.username} </a>
         ${i18n.post.to}
         <a href="${postComment.post.link}"> ${i18n.post.toComment}</a>
-        <br /><br />
-
+        <br />
         <b>🖤 ${i18n.post.likes}:</b>
-        <a href="${postComment.likes.link}"
-          >${postComment.likes.count.toString()}</a
-        ><br /><br />
-
+        <a href="${postComment.likes.link}">${postComment.likes.count.toString()}</a><br />
         <b>🔍 ${i18n.post.content}:</b><br />
         ${messageText}`,
       keyboard: BotKeyboard.inline([

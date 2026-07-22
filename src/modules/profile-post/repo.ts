@@ -9,9 +9,6 @@ export abstract class ProfilePostRepo extends BaseRepo {
   }
 
   static async set(id: number, value: CreateProfilePostData) {
-    return await super.setEntry<CreateProfilePostData, ProfilePostData>(
-      id,
-      value,
-    );
+    return await super.setEntry<CreateProfilePostData, ProfilePostData>(id, value);
   }
 }

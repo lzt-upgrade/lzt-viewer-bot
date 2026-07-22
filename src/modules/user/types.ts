@@ -1,8 +1,6 @@
 import { GROUPS_WITH_BANNER, SIMPLE_GROUPS } from "./group";
 
-export type Group =
-  | (typeof GROUPS_WITH_BANNER)[number]
-  | (typeof SIMPLE_GROUPS)[number];
+export type Group = (typeof GROUPS_WITH_BANNER)[number] | (typeof SIMPLE_GROUPS)[number];
 
 export type UserLinksData = {
   messages: string;

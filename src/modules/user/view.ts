@@ -14,21 +14,17 @@ export abstract class UserView {
     }
 
     const bannedEmoji = user.banInfo.banned ? "🚫" : "✅";
-    const banReason = user.banInfo.banned
-      ? user.banInfo.reason
-      : i18n.user.isBanned.false;
+    const banReason = user.banInfo.banned ? user.banInfo.reason : i18n.user.isBanned.false;
 
     const messageHead = html`<b>👤 ${i18n.user.main}:</b>
-      <a href="${user.link}">${user.username}</a> | 🆔
-      <a href="${user.link}">${user.id}</a> <br />
+      <a href="${user.link}">${user.username}</a> | 🆔 <a href="${user.link}">${user.id}</a> <br />
       <b>💫 ${i18n.user.group}:</b> ${user.group}<br />
       <b>🖥 ${i18n.user.predictedGroup}:</b>
       ${user.predictedGroup}<br />`;
 
     // you need use toString else it will be cleared if value === 0
     const depositField = user.deposit
-      ? html`<b>💰 ${i18n.user.deposit}:</b>
-          ${user.deposit.toString()}${USED_CURRENCY}<br />`
+      ? html`<b>💰 ${i18n.user.deposit}:</b> ${user.deposit.toString()}${USED_CURRENCY}<br />`
       : "";
     const messageBody = html`${depositField}
       <b>✉️ ${i18n.user.messages}:</b>
@@ -46,8 +42,7 @@ export abstract class UserView {
       <b>ℹ️ ${i18n.user.status}:</b>
       <code>${user.status}</code>
       <br />`;
-    const messageFooter = html`<b>${bannedEmoji} ${i18n.user.isBanned.main}:</b>
-      ${banReason}`;
+    const messageFooter = html`<b>${bannedEmoji} ${i18n.user.isBanned.main}:</b> ${banReason}`;
 
     return {
       message: html`${messageHead}
@@ -57,9 +52,7 @@ export abstract class UserView {
         ${messageFooter}`,
       keyboard: BotKeyboard.inline([
         [BotKeyboard.url(`🔗 ${i18n.user.go}`, user.link)],
-        ...(user.links.telegram
-          ? [[BotKeyboard.url("💬 Telegram", user.links.telegram)]]
-          : []),
+        ...(user.links.telegram ? [[BotKeyboard.url("💬 Telegram", user.links.telegram)]] : []),
       ]),
     };
   }

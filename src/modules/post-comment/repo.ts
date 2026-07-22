@@ -9,9 +9,6 @@ export abstract class PostCommentRepo extends BaseRepo {
   }
 
   static async set(id: number, value: CreatePostCommentData) {
-    return await super.setEntry<CreatePostCommentData, PostCommentData>(
-      id,
-      value,
-    );
+    return await super.setEntry<CreatePostCommentData, PostCommentData>(id, value);
   }
 }

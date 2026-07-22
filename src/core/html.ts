@@ -1,10 +1,5 @@
 // ty sol
-import {
-  NodeType,
-  parse,
-  type HTMLElement,
-  type TextNode,
-} from "node-html-parser";
+import { NodeType, parse, type HTMLElement, type TextNode } from "node-html-parser";
 
 export function truncateHtml(html: string, limit = 512): string {
   const root = parse(html);

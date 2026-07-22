@@ -44,9 +44,7 @@ export abstract class UserService {
         fields,
       } = user;
       const predictedGroup = predictGroup(user);
-      const telegramLink = fields.find(
-        (field) => field.id === "telegram",
-      )?.value;
+      const telegramLink = fields.find((field) => field.id === "telegram")?.value;
 
       const data: CreateUserData = {
         username,
@@ -90,9 +88,7 @@ export abstract class UserService {
 
       return result?.value;
     } catch {
-      console.error(
-        "Failed to fetch user data from API, returning saved data if available",
-      );
+      console.error("Failed to fetch user data from API, returning saved data if available");
     }
 
     if (!saved) {

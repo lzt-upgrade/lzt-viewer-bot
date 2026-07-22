@@ -49,10 +49,7 @@ export function parseUserBanner(banner: string) {
         ),
       )
       .flat()
-      .filter(
-        (bannerClass) =>
-          bannerClass && GROUPS_WITH_BANNER.includes(bannerClass),
-      );
+      .filter((bannerClass) => bannerClass && GROUPS_WITH_BANNER.includes(bannerClass));
   } catch {
     return undefined;
   }
@@ -98,10 +95,7 @@ export function hasUniqGroup(user: User): boolean {
 export function predictGroup(user: User): string | undefined {
   const groupsByBanner = parseUserBanner(user.banner);
   // i prefer add priority to other groups, because Ikarus can be converted by sympathies
-  if (
-    groupsByBanner?.length &&
-    !(groupsByBanner.length === 1 && groupsByBanner[0] === "Ikarus")
-  ) {
+  if (groupsByBanner?.length && !(groupsByBanner.length === 1 && groupsByBanner[0] === "Ikarus")) {
     return groupsByBanner.map((group) => (i18n.group as any)[group]).join(", ");
   }
 

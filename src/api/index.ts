@@ -21,11 +21,7 @@ export class ForumClient {
   private ratelimitInfo: RatelimitInfo | undefined;
 
   constructor(opts?: ForumOptions) {
-    const {
-      domain = "prod-api.lolz.live",
-      apiToken,
-      locale = env.LOCALE,
-    } = opts ?? {};
+    const { domain = "prod-api.lolz.live", apiToken, locale = env.LOCALE } = opts ?? {};
     if (!apiToken) {
       throw new Error("API token is required");
     }
@@ -49,33 +45,24 @@ export class ForumClient {
 
     return (
       // 1 request for safety
-      this.ratelimitInfo.remaining <= 1 &&
-      this.ratelimitInfo.reset > getTimestamp()
+      this.ratelimitInfo.remaining <= 1 && this.ratelimitInfo.reset > getTimestamp()
     );
   }
 
-  async request<T>(
-    path: string,
-    opts: RequestInit = {},
-  ): Promise<LZTResult<T>> {
+  async request<T>(path: string, opts: RequestInit = {}): Promise<LZTResult<T>> {
     try {
       if (this.hasRatelimit) {
-        throw new Error(
-          "Looks like Ratelimit exceeded. Please wait before making more requests",
-        );
+        throw new Error("Looks like Ratelimit exceeded. Please wait before making more requests");
       }
 
       const { headers: extraHeaders, ...restOpts } = opts;
-      const res = await fetch(
-        `https://${this.domain}/${path}?locale=${this.locale}`,
-        {
-          headers: {
-            ...this.headers,
-            ...extraHeaders,
-          },
-          ...restOpts,
+      const res = await fetch(`https://${this.domain}/${path}?locale=${this.locale}`, {
+        headers: {
+          ...this.headers,
+          ...extraHeaders,
         },
-      );
+        ...restOpts,
+      });
 
       const data = (await res.json()) as LZTErrorResponse | T;
       if (isAPIError(data)) {
@@ -140,9 +127,7 @@ export class ForumClient {
   }
 
   async getProfilePost(profilePostId: number): Promise<ProfilePost> {
-    const result = await this.request<ProfilePostResponse>(
-      `profile-posts/${profilePostId}`,
-    );
+    const result = await this.request<ProfilePostResponse>(`profile-posts/${profilePostId}`);
     if (!result.success) {
       throw result.error;
     }
@@ -150,9 +135,7 @@ export class ForumClient {
     return result.data.profile_post;
   }
 
-  async getProfilePostComment(
-    commentId: number,
-  ): Promise<ProfilePostCommentClientResponse> {
+  async getProfilePostComment(commentId: number): Promise<ProfilePostCommentClientResponse> {
     const result = await this.request<ProfilePostCommentResponse>(
       `profile-posts/comments/?comment_id=${commentId}`,
     );

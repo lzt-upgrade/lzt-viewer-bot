@@ -128,9 +128,7 @@ export const extractFromUrl = (url: URL): ExtractedLink | undefined => {
   return undefined;
 };
 
-export const extractForumLinks = (
-  textWithEntities: TextWithEntities,
-): ExtractedLink[] => {
+export const extractForumLinks = (textWithEntities: TextWithEntities): ExtractedLink[] => {
   const entitiesWithUrl = textWithEntities.entities?.filter((entity) =>
     ENTITY_WITH_URL.includes(entity._),
   );
@@ -165,10 +163,7 @@ export const extractForumLinks = (
     .filter((item) => item.value !== undefined)
     .filter(
       (item, index, array) =>
-        index ===
-        array.findIndex(
-          (other) => other.id === item.id && other.value === item.value,
-        ),
+        index === array.findIndex((other) => other.id === item.id && other.value === item.value),
     )
     .sort((a, b) => b.priority - a.priority);
 };

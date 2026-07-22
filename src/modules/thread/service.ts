@@ -2,11 +2,7 @@ import { isExpired } from "../../core/db";
 import { ThreadRepo } from "./repo";
 import { lzt } from "../../core/lzt";
 import { CreateThreadData } from "./types";
-import {
-  getForumsPerma,
-  getMemberPerma,
-  getThreadPerma,
-} from "../../api/utils";
+import { getForumsPerma, getMemberPerma, getThreadPerma } from "../../api/utils";
 
 export abstract class ThreadService {
   static async get(threadId: number) {
@@ -60,9 +56,7 @@ export abstract class ThreadService {
       });
       return result?.value;
     } catch {
-      console.error(
-        "Failed to fetch thread data from API, returning saved data if available",
-      );
+      console.error("Failed to fetch thread data from API, returning saved data if available");
     }
 
     if (!saved) {

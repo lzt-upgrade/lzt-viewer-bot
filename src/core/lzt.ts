@@ -9,7 +9,5 @@ export const lzt = new ForumClient({
 
 export const USED_CURRENCY: string = await lzt
   .getUser("me" as const)
-  .then(
-    (user) => (CURRENCY_SYMBOLS as any)[user.currency] ?? CURRENCY_SYMBOLS.rub,
-  )
+  .then((user) => (CURRENCY_SYMBOLS as any)[user.currency] ?? CURRENCY_SYMBOLS.rub)
   .catch(() => CURRENCY_SYMBOLS.rub);

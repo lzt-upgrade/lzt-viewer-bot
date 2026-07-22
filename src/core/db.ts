@@ -4,10 +4,7 @@ import { DBEntry } from "../types/db";
 import { getTimestamp } from "../api/utils";
 
 class TypedRocksDatabase extends RocksDatabase {
-  get<T>(
-    key: Key,
-    options?: Parameters<typeof RocksDatabase.prototype.get>[1],
-  ) {
+  get<T>(key: Key, options?: Parameters<typeof RocksDatabase.prototype.get>[1]) {
     return super.get(key, options) as MaybePromise<T | undefined>;
   }
 }
@@ -22,9 +19,7 @@ export abstract class BaseRepo {
   static prefix = "base";
   static ttl = 60; // 1 min in seconds
 
-  protected static async getEntry<Value>(
-    id: number | string,
-  ): Promise<DBEntry<Value> | undefined> {
+  protected static async getEntry<Value>(id: number | string): Promise<DBEntry<Value> | undefined> {
     return await db.get<DBEntry<Value>>(`${this.prefix}:${id}`);
   }
 

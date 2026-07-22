@@ -6,9 +6,7 @@ import { PostCommentView } from "../modules/post-comment/view";
 import { UserView } from "../modules/user/view";
 import { ProfilePostView } from "../modules/profile-post/view";
 
-export const linkToView:
-  | LinkToView<NumExtractedLink>
-  | LinkToView<StrExtractedLink> = {
+export const linkToView: LinkToView<NumExtractedLink> | LinkToView<StrExtractedLink> = {
   thread: ThreadView.getInfo,
   post: PostView.getInfo,
   "post-comment": PostCommentView.getInfo,

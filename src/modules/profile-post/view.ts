@@ -14,31 +14,18 @@ export abstract class ProfilePostView {
       return;
     }
 
-    const messageText = getTextByBBcode(
-      profilePost.bbText,
-      profilePost.plainText,
-    );
+    const messageText = getTextByBBcode(profilePost.bbText, profilePost.plainText);
 
     return {
-      message: html`<b
-          >📄 <a href="${profilePost.link}">${i18n.profilePost.main}</a>
-        </b>
-        <a href="${profilePost.profile.link}"
-          >${profilePost.profile.username}</a
-        >
+      message: html`<b>📄 <a href="${profilePost.link}">${i18n.profilePost.main}</a> </b>
+        <a href="${profilePost.profile.link}">${profilePost.profile.username}</a>
         ${i18n.profilePost.by}
         <a href="${profilePost.owner.link}"> ${profilePost.owner.username} </a>
         <br /><br />
-
         <b>🖤 ${i18n.profilePost.likes}:</b>
-        <a href="${profilePost.likes.link}"
-          >${profilePost.likes.count.toString()}</a
-        ><br />
+        <a href="${profilePost.likes.link}">${profilePost.likes.count.toString()}</a><br />
         <b>✉️ ${i18n.profilePost.comments}:</b>
-        <a href="${profilePost.comments.link}"
-          >${profilePost.comments.count.toString()}</a
-        ><br /><br />
-
+        <a href="${profilePost.comments.link}">${profilePost.comments.count.toString()}</a><br />
         <b>🔍 ${i18n.post.content}:</b><br />
         ${messageText}`,
       keyboard: BotKeyboard.inline([

@@ -1,8 +1,4 @@
-import {
-  InlineKeyboardMarkup,
-  MaybePromise,
-  TextWithEntities,
-} from "@mtcute/bun";
+import { InlineKeyboardMarkup, MaybePromise, TextWithEntities } from "@mtcute/bun";
 import { ExtractedLink, NumExtractedLink } from "../extractor";
 
 export type LinkView =

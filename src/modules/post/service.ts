@@ -1,12 +1,7 @@
 import { isExpired } from "../../core/db";
 import { PostRepo } from "./repo";
 import { lzt } from "../../core/lzt";
-import {
-  getMemberPerma,
-  getPostLikesPerma,
-  getPostPerma,
-  getThreadPerma,
-} from "../../api/utils";
+import { getMemberPerma, getPostLikesPerma, getPostPerma, getThreadPerma } from "../../api/utils";
 import { CreatePostData } from "./types";
 
 export abstract class PostService {
@@ -53,9 +48,7 @@ export abstract class PostService {
 
       return result?.value;
     } catch {
-      console.error(
-        "Failed to fetch post data from API, returning saved data if available",
-      );
+      console.error("Failed to fetch post data from API, returning saved data if available");
     }
 
     if (!saved) {

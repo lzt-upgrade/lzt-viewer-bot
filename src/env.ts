@@ -17,6 +17,7 @@ const r = z
     ),
     FORUM_DOMAINS: ZStringObj,
     FORUM_BASE: z.optional(z.string().min(1)).default("https://lolz.live"),
+    MARKET_BASE: z.optional(z.string().min(1)).default("https://lzt.market"),
     LOCALE: z.optional(z.literal("ru").or(z.literal("en"))).default("ru"),
     PROXY_URL: z.optional(z.string().min(1)),
     REMOVE_HIDDEN_CONTENT_TAG: z.optional(z.coerce.boolean()).default(false),

@@ -15,6 +15,8 @@ import { PostButton } from "./modules/post/keyboard.ts";
 import { PostView } from "./modules/post/view.ts";
 import { ViewFactory } from "./types/core.ts";
 import { LinkToView } from "./types/view.ts";
+import { UserTrophiesButton } from "./modules/user-trophies/keyboard.ts";
+import { UserTrophiesView } from "./modules/user-trophies/view.ts";
 
 const transport = getTransport();
 
@@ -55,6 +57,19 @@ dp.onCallbackQuery(MemberButton.filter({ action: "info" }), async (upd) => {
   await actionHander(upd, async () => await UserView.getInfo(upd.match.id), i18n.error.noUserFound);
 });
 
+dp.onCallbackQuery(UserTrophiesButton.filter({ action: "info" }), async (upd) => {
+  const userId = Number.parseInt(upd.match.id);
+  if (Number.isNaN(userId)) {
+    return;
+  }
+
+  await actionHander(
+    upd,
+    async () => await UserTrophiesView.getInfo(userId),
+    i18n.error.noUserFound,
+  );
+});
+
 dp.onCallbackQuery(ThreadButton.filter({ action: "info" }), async (upd) => {
   await actionHander(
     upd,
@@ -89,6 +104,13 @@ dp.onNewMessage(selectedGroupFilter, async (msg) => {
     const message = await linkViewFn(link.value);
     if (!message) {
       continue;
+    }
+
+    if (message.media) {
+      return void (await msg.answerMedia(message.media, {
+        caption: message.message,
+        replyMarkup: message.keyboard,
+      }));
     }
 
     await msg.answerText(message.message, {

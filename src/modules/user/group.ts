@@ -2,7 +2,7 @@ import parse from "node-html-parser";
 import { User } from "../../types/api/user";
 import i18n from "../../i18n";
 
-export const GROUPS_WITH_BANNER: readonly string[] = [
+export const GROUPS_WITH_BANNER = [
   "admin",
   "Ikarus",
   "Greatest",
@@ -23,14 +23,7 @@ export const GROUPS_WITH_BANNER: readonly string[] = [
   "smm",
 ] as const;
 
-export const SIMPLE_GROUPS: readonly string[] = [
-  "newbie",
-  "local",
-  "resident",
-  "expert",
-  "guru",
-  "banned",
-] as const;
+export const SIMPLE_GROUPS = ["newbie", "local", "resident", "expert", "guru", "banned"] as const;
 
 export const DEFAULT_USER_BANNER_CLASSES = ["userBanner", "wrapped"];
 
@@ -49,7 +42,11 @@ export function parseUserBanner(banner: string) {
         ),
       )
       .flat()
-      .filter((bannerClass) => bannerClass && GROUPS_WITH_BANNER.includes(bannerClass));
+      .filter(
+        (bannerClass) =>
+          bannerClass &&
+          GROUPS_WITH_BANNER.includes(bannerClass as (typeof GROUPS_WITH_BANNER)[number]),
+      );
   } catch {
     return undefined;
   }

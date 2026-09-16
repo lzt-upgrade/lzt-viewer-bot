@@ -3,6 +3,8 @@ import { env } from "../env";
 import type { LZTErrorResponse } from "../types/api/error";
 import { ResponseWithSystemInfo } from "../types/api/system";
 
+const REPORTS_PREFIX_ID = 315;
+
 export const returnError = (error: unknown) =>
   Error.isError(error) ? error : new Error((error as string).toString());
 
@@ -54,3 +56,8 @@ export const getProfilePostLikesPerma = (profilePostId: number) =>
 
 export const getProfilePostCommentsPerma = (profilePostId: number) =>
   `${getProfilePostPerma(profilePostId)}/comments`;
+
+export const getMarketProfilePerma = (userId: number) => `${env.MARKET_BASE}/user/${userId}`;
+
+export const getUserReportsThreads = (userId: number) =>
+  `${env.FORUM_BASE}/forums/tab/userthreads/${userId}/?user_id=${userId}&post_period_label=all_the_time&prefix_id_and[]=${REPORTS_PREFIX_ID}`;

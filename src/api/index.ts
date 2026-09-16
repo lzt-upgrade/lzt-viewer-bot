@@ -5,6 +5,7 @@ import { Thread, ThreadResponse } from "../types/api/thread";
 import { RatelimitInfo } from "../types/api/system";
 import { Locale } from "../types/locale";
 import type { CurrentUser, User, UserResponse } from "../types/api/user";
+import type { UserTrophy, UserTrophyResponse } from "../types/api/user-trophies";
 import { env } from "../env";
 import { Post, PostResponse } from "../types/api/post";
 import { PostComment, PostCommentResponse } from "../types/api/post-comment";
@@ -21,7 +22,7 @@ export class ForumClient {
   private ratelimitInfo: RatelimitInfo | undefined;
 
   constructor(opts?: ForumOptions) {
-    const { domain = "prod-api.lolz.live", apiToken, locale = env.LOCALE } = opts ?? {};
+    const { domain = "api.lolz.live", apiToken, locale = env.LOCALE } = opts ?? {};
     if (!apiToken) {
       throw new Error("API token is required");
     }
@@ -150,5 +151,14 @@ export class ForumClient {
       profile_post,
       timeline_user,
     };
+  }
+
+  async getUserTrophies(userIdOrSlug: number | "me"): Promise<UserTrophy[]> {
+    const result = await this.request<UserTrophyResponse>(`users/${userIdOrSlug}/trophies`);
+    if (!result.success) {
+      throw result.error;
+    }
+
+    return result.data.trophies;
   }
 }

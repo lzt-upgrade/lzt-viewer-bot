@@ -3,6 +3,7 @@ import { UserRepo } from "./repo";
 import { lzt } from "../../core/lzt";
 import { CreateUserData } from "./types";
 import {
+  getMarketProfilePerma,
   getMemberFollowersPerma,
   getMemberFollowingPerma,
   getMemberLikesPerma,
@@ -10,8 +11,17 @@ import {
   getMemberPerma,
   getMemberSympathiesPerma,
   getMemberTrophiesPerma,
+  getUserReportsThreads,
 } from "../../api/utils";
 import { predictGroup } from "./group";
+import {
+  predictRemarks,
+  predictReports,
+  predictReviews,
+  predictSells,
+  predictViews,
+} from "../user-trophies/utils";
+import { UserTrophiesService } from "../user-trophies/service";
 
 export abstract class UserService {
   static async get(userIdOrSlug: number | string) {
@@ -35,6 +45,7 @@ export abstract class UserService {
         is_banned: banned,
         ban_reason: reason,
         ban: { author, ban_date: startDate, end_date: endDate } = {},
+        links: { avatar_big: avatarUrl },
         contest_count: contests,
         trophy_count: trophies,
         user_following: { count: followings },
@@ -46,6 +57,7 @@ export abstract class UserService {
       const predictedGroup = predictGroup(user);
       const telegramLink = fields.find((field) => field.id === "telegram")?.value;
 
+      const userTrophies = await UserTrophiesService.get(userId);
       const data: CreateUserData = {
         username,
         status: status || "N/A",
@@ -53,6 +65,11 @@ export abstract class UserService {
         deposit,
         sympathies,
         likes,
+        views: predictViews(userTrophies),
+        sells: predictSells(userTrophies),
+        reviews: predictReviews(userTrophies),
+        reports: predictReports(userTrophies),
+        remarks: predictRemarks(userTrophies),
         slug,
         banInfo: {
           banned: Boolean(banned),
@@ -77,7 +94,10 @@ export abstract class UserService {
           trophies: getMemberTrophiesPerma(userId),
           followers: getMemberFollowersPerma(userId),
           followings: getMemberFollowingPerma(userId),
+          market: getMarketProfilePerma(userId),
+          reports: getUserReportsThreads(userId),
           telegram: telegramLink ? `https://t.me/${telegramLink}` : undefined,
+          avatarUrl,
         },
       };
 
@@ -87,8 +107,8 @@ export abstract class UserService {
       const result = await this.set(userId, data);
 
       return result?.value;
-    } catch {
-      console.error("Failed to fetch user data from API, returning saved data if available");
+    } catch (err) {
+      console.error("Failed to fetch user data from API, returning saved data if available", err);
     }
 
     if (!saved) {

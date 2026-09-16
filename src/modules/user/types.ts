@@ -1,4 +1,5 @@
 import { GROUPS_WITH_BANNER, SIMPLE_GROUPS } from "./group";
+import { predictRemarks } from "./trophy";
 
 export type Group = (typeof GROUPS_WITH_BANNER)[number] | (typeof SIMPLE_GROUPS)[number];
 
@@ -9,7 +10,10 @@ export type UserLinksData = {
   trophies: string;
   followers: string;
   followings: string;
+  market: string;
+  reports: string;
   telegram: string | undefined;
+  avatarUrl: string | undefined;
 };
 
 export type UserBanInfo = {
@@ -27,6 +31,11 @@ export type UserData = {
   deposit: number;
   sympathies: number;
   likes: number;
+  views: number | undefined;
+  sells: number | undefined;
+  reviews: number | undefined;
+  reports: number | undefined;
+  remarks: ReturnType<typeof predictRemarks>;
   contests: number;
   trophies: number;
   followers: number;
@@ -34,7 +43,7 @@ export type UserData = {
   slug: string;
   status: string;
   group: string;
-  predictedGroup: Group | undefined;
+  predictedGroup: string | undefined;
   banInfo: UserBanInfo;
   link: string;
   links: UserLinksData;

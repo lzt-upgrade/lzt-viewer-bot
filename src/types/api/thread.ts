@@ -6,43 +6,17 @@ import type { Post } from "./post";
  */
 export type FieldInclude = "*" | "latest_posts";
 
-export type ThreadPrefix = {
-  prefix_id: number;
-  prefix_title: string;
-};
-
-export type ThreadLink = {
-  permalink: string;
-  detail: string;
-  followers: string;
-  forum: string;
-  posts: string;
-  first_poster: string;
-  first_poster_avatar: string;
-  first_post: string;
-  last_poster: string;
-  last_post: string;
-};
-
-export type ThreadPermsBump = {
+export type ThreadBump = {
   can: boolean;
   available_count: number;
   error: string;
   next_available_time: number;
 };
 
-export type ThreadPerms = {
-  view: boolean;
-  delete: boolean;
-  follow: boolean;
-  post: boolean;
-  edit: boolean;
-  bump: ThreadPermsBump;
-};
-
 export type ThreadContestPerms = {
   can_finish: boolean;
   can_participate: boolean;
+  can_participate_error: string;
   can_view_user_list: boolean;
 };
 
@@ -57,9 +31,7 @@ export type ThreadContest = {
   require_total_like_count: number;
   prize_type: string;
   prize_type_phrase: string;
-  prize_data: {
-    additionalProp: number;
-  };
+  prize_data: Record<string, number> | number;
   prize_cost: number;
   is_money_places: number;
   chance_to_win: number;
@@ -74,36 +46,64 @@ export type ThreadContest = {
 
 export type Thread = {
   thread_id: number;
-  forum_id: number;
-  thread_title: string;
-  thread_view_count: number;
-  creator_user_id: number;
-  creator_username: string;
-  creator_username_html: string;
-  thread_create_date: number;
-  thread_update_date: number;
-  thread_reply_group_id: number;
-  thread_comment_ignore_group: number;
-  thread_last_bump_date: number;
-  user_is_ignored: boolean;
-  thread_post_count: number;
-  thread_is_liked: boolean;
-  thread_is_bumped: boolean;
-  thread_is_published: boolean;
-  thread_is_deleted: boolean;
-  thread_is_sticky: boolean;
-  thread_is_closed: boolean;
-  thread_is_followed: boolean;
-  thread_is_starred: boolean;
-  thread_hide_contacts?: boolean;
-  thread_allow_ask_hidden_content?: boolean;
-  first_post: Post;
-  thread_prefixes: ThreadPrefix[];
-  thread_tags: Record<string, string>; // MAYBE ITS ARRAY OF OBJECTS
-  links: ThreadLink;
-  permissions: ThreadPerms;
+  node_id: number;
   node_title: string;
-  last_post?: Post;
+  title: string;
+  title_en: string;
+  view_url: string;
+  avatar_url: string;
+  view_count: number;
+  user_id: number;
+  username: string;
+  username_html: string;
+  post_date: number;
+  reply_group_id: number;
+  comment_ignore_group: boolean;
+  last_bump_date: number;
+  is_ignored: boolean;
+  post_count: number;
+  reply_count: number;
+  visitor_post_count: number;
+  is_liked: boolean;
+  is_bumped: boolean;
+  is_hidden: boolean;
+  is_hot: boolean;
+  is_like2_node: boolean;
+  is_unread: boolean;
+  is_watched: boolean;
+  is_starred: boolean;
+  sticky: boolean;
+  hide_contacts: boolean;
+  allow_ask_hidden_content: boolean;
+  discussion_open: boolean;
+  discussion_state: string;
+  discussion_type: string;
+  first_post: Post;
+  first_post_id: number;
+  first_post_likes: number;
+  last_post_id: number;
+  last_post_date: number;
+  last_post_user_id: number;
+  last_post_username: string;
+  prefix_id: number;
+  prefix_ids: number[];
+  tags: string[];
+  review_negative_count: number;
+  review_paid_count: number;
+  review_positive_count: number;
+  review_score: number;
+  review_share: number;
+  review_total_count: number;
+  review_unproven_count: number;
+  bump: ThreadBump;
+  can_edit: boolean;
+  can_edit_tags: boolean;
+  can_edit_title: boolean;
+  can_hard_delete: boolean;
+  can_reply: boolean;
+  can_soft_delete: boolean;
+  can_view: boolean;
+  can_watch: boolean;
   contest?: ThreadContest;
 };
 

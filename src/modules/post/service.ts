@@ -13,21 +13,19 @@ export abstract class PostService {
 
     try {
       const {
-        poster_user_id: ownerId,
-        poster_username: username,
-        post_create_date: createdAt,
-        post_update_date: updatedAt,
-        post_like_count: likes,
+        user_id: ownerId,
+        username,
+        post_date: createdAt,
+        update_date: updatedAt,
+        likes,
         thread_id: threadId,
-        thread: { thread_title: threadTitle },
-        post_body: bbText,
-        post_body_plain_text: plainText,
+        message: bbText,
+        message_plain_text: plainText,
       } = await lzt.getPost(postId);
 
       const result = await this.set(postId, {
         thread: {
           id: threadId,
-          title: threadTitle,
           link: getThreadPerma(threadId),
         },
         owner: {

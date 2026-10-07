@@ -13,25 +13,16 @@ export abstract class ThreadService {
 
     try {
       const {
-        forum_id: nodeId,
-        thread_title: title,
-        creator_user_id: ownerId,
-        creator_username: ownerUsername,
-        thread_view_count: views,
-        thread_create_date: createdAt,
-        thread_update_date: updatedAt,
-        thread_post_count: posts,
+        node_id: nodeId,
+        title,
+        user_id: ownerId,
+        username: ownerUsername,
+        view_count: views,
+        post_date: createdAt,
+        last_post_date: updatedAt,
+        post_count: posts,
         node_title: nodeTitle,
-        first_post: {
-          // post_id: postId,
-          // post_like_count: likes,
-          // poster_user_id: postOwnerId,
-          // poster_username: postOwnerUsername,
-          // post_body_plain_text: plainText,
-          post_like_count: likes,
-          post_body_plain_text: plainText,
-          post_body: bbText,
-        },
+        first_post: { likes, message_plain_text: plainText, message: bbText },
       } = await lzt.getThread(threadId);
       const result = await this.set(threadId, {
         title,

@@ -18,15 +18,15 @@ export abstract class PostCommentService {
 
     try {
       const {
-        poster_user_id: ownerId,
-        poster_username: username,
+        user_id: ownerId,
+        username,
         post_id: postId,
-        post_comment_create_date: createdAt,
-        post_comment_update_date: updatedAt,
-        post_comment_like_count: likes,
+        comment_date: createdAt,
+        update_date: updatedAt,
+        likes,
         thread_id: threadId,
-        post_comment_body: bbText,
-        post_comment_body_plain_text: plainText,
+        message: bbText,
+        message_plain_text: plainText,
       } = await lzt.getPostComment(postCommentId);
 
       const result = await this.set(postId, {

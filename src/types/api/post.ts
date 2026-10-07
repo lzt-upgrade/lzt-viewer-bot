@@ -1,59 +1,54 @@
-import { DeleteInfo, ResponseWithSystemInfo } from "./system";
-import { Thread } from "./thread";
-
-export type PostLinks = {
-  permalink: string;
-  detail: string;
-  thread: string;
-  poster: string;
-  likes: string;
-  report: string;
-  poster_avatar: string;
-};
-
-export type PostPerms = {
-  view: boolean;
-  edit: boolean;
-  delete: boolean;
-  undelete: boolean;
-  reply: boolean;
-  like: boolean;
-  report: boolean;
-  stick: boolean;
-  unstick: boolean;
-};
-
-export type PostThread = Omit<Thread, "first_post" | "last_post">;
+import { ResponseWithSystemInfo } from "./system";
 
 export type Post = {
   post_id: number;
   thread_id: number;
-  poster_user_id: number;
-  poster_username: string;
-  poster_username_html: string;
-  poster_is_banned: number; // maybe is bool???
-  poster_is_staff: number; // maybe is bool???
-  post_create_date: number;
-  post_body: string;
-  post_body_html: string;
-  post_body_plain_text: string;
+  node_id: number;
+  user_id: number;
+  username: string;
+  username_html: string;
+  avatar_url: string;
+  view_url: string;
+  is_banned: boolean;
+  is_staff: boolean;
+  post_date: number;
+  update_date: number;
+  message: string;
+  message_html: string;
+  message_plain_text: string;
+  message_state: string;
   signature: string;
   signature_html: string;
   signature_plain_text: string;
-  post_like_count: number;
-  delete_info?: DeleteInfo;
-  user_is_ignored: boolean;
-  post_is_sticked: boolean;
-  post_is_published: boolean;
-  post_is_deleted: boolean;
-  post_update_date: number;
-  post_is_first_post: boolean;
-  post_is_liked: boolean;
-  links: PostLinks;
-  permissions: PostPerms;
+  likes: number;
+  like_date: number;
+  comment_count: number;
+  position: number;
+  edit_count: number;
+  last_edit_date: number;
+  last_edit_user_id: number;
+  sticky_user_id: number;
+  warning_id: number;
+  warning_message: string;
+  is_ignored: boolean;
+  is_sticked: boolean;
+  is_first_post: boolean;
+  is_last_post: boolean;
+  is_like2_node: boolean;
+  is_liked: boolean;
+  is_unread: boolean;
   thread_is_deleted: boolean;
   thread_is_closed: boolean;
-  thread: PostThread;
+  can_edit: boolean;
+  can_hard_delete: boolean;
+  can_like: boolean;
+  can_reply: boolean;
+  can_report: boolean;
+  can_soft_delete: boolean;
+  can_stick: boolean;
+  can_undelete: boolean;
+  can_unstick: boolean;
+  can_view: boolean;
 };
 
 export type PostResponse = ResponseWithSystemInfo & {

@@ -2,7 +2,6 @@ import { OwnerData } from "../../types/modules/owner";
 
 export type PostThreadData = {
   id: number;
-  title: string;
   link: string;
 };
 

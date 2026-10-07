@@ -1,5 +1,5 @@
 import { DetailedTimestamp, ResponseWithSystemInfo } from "./system";
-import { Thread, ThreadPerms } from "./thread";
+import type { ThreadBump } from "./thread";
 
 export type UserLinks = {
   permalink: string;
@@ -72,11 +72,52 @@ export type UserFollows = {
   count: number;
 };
 
-export type UserProfileThread = Omit<
-  Thread,
-  "contest" | "first_post" | "last_post" | "permissions"
-> & {
-  permissions: Omit<ThreadPerms, "edit">;
+// profile threads still uses the legacy thread shape
+export type UserProfileThread = {
+  thread_id: number;
+  forum_id: number;
+  thread_title: string;
+  thread_view_count: number;
+  creator_user_id: number;
+  creator_username: string;
+  creator_username_html: string;
+  thread_create_date: number;
+  thread_update_date: number;
+  thread_reply_group_id: number;
+  thread_comment_ignore_group: number;
+  thread_last_bump_date: number;
+  thread_hide_contacts: number;
+  thread_allow_ask_hidden_content: number;
+  user_is_ignored: boolean;
+  thread_post_count: number;
+  thread_is_bumped: boolean;
+  thread_is_published: boolean;
+  thread_is_deleted: boolean;
+  thread_is_sticky: boolean;
+  thread_is_closed: boolean;
+  thread_is_followed: boolean;
+  thread_is_starred: boolean;
+  thread_prefixes: unknown[];
+  thread_tags: Record<string, string>;
+  links: {
+    permalink: string;
+    detail: string;
+    followers: string;
+    forum: string;
+    posts: string;
+    first_poster: string;
+    first_poster_avatar: string;
+    first_post: string;
+    last_post: string;
+  };
+  permissions: {
+    view: boolean;
+    delete: boolean;
+    follow: boolean;
+    post: boolean;
+    bump: ThreadBump;
+  };
+  node_title: string;
 };
 
 export type UserEditPerms = {

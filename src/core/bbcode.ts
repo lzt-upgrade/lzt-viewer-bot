@@ -5,6 +5,7 @@ import { getMemberPerma } from "../api/utils";
 import { env } from "../env";
 import { thtml } from "@mtcute/html-parser";
 import { truncateHtml } from "./html";
+import { TagNode } from "@bbob/parser";
 
 type TagsDefination = Parameters<typeof createPreset>[0];
 type TagDefinationFunc = TagsDefination[keyof TagsDefination];
@@ -73,13 +74,15 @@ const getFirstTag = (node: Parameters<TagDefinationFunc>[0]) => {
   return attrs[key].split(";", 1)[0].trim();
 };
 
-const getNodeText = (node: Parameters<TagDefinationFunc>[0]) => {
+const getNodeText = (node: Parameters<TagDefinationFunc>[0]): string => {
   if (!node.content) {
     return "";
   }
 
   if (Array.isArray(node.content)) {
-    return node.content.join("");
+    return node.content
+      .map((child) => (child instanceof TagNode ? getNodeText(child) : child?.toString()))
+      .join("");
   }
 
   return node.content.toString();

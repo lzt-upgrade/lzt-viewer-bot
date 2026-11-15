@@ -1,22 +1,24 @@
 import { CallbackQueryContext, Dispatcher } from "@mtcute/dispatcher";
 import { TelegramClient } from "@mtcute/bun";
 
-import { filterCallbackKbBtn, selectedGroupFilter } from "./filters.ts";
+import { dmFilter, filterCallbackKbBtn, selectedGroupFilter } from "./filters.ts";
 import { env } from "./env.ts";
 import { getTransport } from "./transport.ts";
 import { ExtractedLink, extractForumLinks } from "./extractor.ts";
-import { MemberButton } from "./modules/user/keyboard.ts";
 import { linkToView } from "./core/view.ts";
-import { UserView } from "./modules/user/view.ts";
 import i18n from "./i18n/index.ts";
+import { ViewFactory } from "./types/core.ts";
+import { LinkToView } from "./types/view.ts";
+
+import { MemberButton } from "./modules/user/keyboard.ts";
+import { UserView } from "./modules/user/view.ts";
 import { ThreadButton } from "./modules/thread/keyboard.ts";
 import { ThreadView } from "./modules/thread/view.ts";
 import { PostButton } from "./modules/post/keyboard.ts";
 import { PostView } from "./modules/post/view.ts";
-import { ViewFactory } from "./types/core.ts";
-import { LinkToView } from "./types/view.ts";
 import { UserTrophiesButton } from "./modules/user-trophies/keyboard.ts";
 import { UserTrophiesView } from "./modules/user-trophies/view.ts";
+import { initPrivateDM } from "./modules-private/dm.ts";
 
 const transport = getTransport();
 
@@ -118,6 +120,13 @@ dp.onNewMessage(selectedGroupFilter, async (msg) => {
       replyMarkup: message.keyboard,
     });
     break;
+  }
+});
+
+dp.onNewMessage(dmFilter, async (msg) => {
+  const result = await initPrivateDM(msg, tg);
+  if (result) {
+    return;
   }
 });
 

@@ -1,6 +1,7 @@
-import { TextWithEntities } from "@mtcute/bun";
+import { TextWithEntities, tl } from "@mtcute/bun";
 import { env } from "./env";
 import { ENTITY_WITH_URL } from "./filters";
+import { safeParseURL } from "./utils";
 
 export type ExtractorId =
   | "thread"
@@ -128,42 +129,38 @@ export const extractFromUrl = (url: URL): ExtractedLink | undefined => {
   return undefined;
 };
 
-const parseURL = (urlText: string): URL => {
-  if (/http(s):\/\//.exec(urlText)) {
-    return new URL(urlText);
-  }
+export const extractEntitiesWithUrl = (
+  textWithEntities: TextWithEntities,
+): tl.TypeMessageEntity[] =>
+  textWithEntities.entities?.filter((entity) => ENTITY_WITH_URL.includes(entity._)) ?? [];
 
-  return new URL(`https://${urlText}`);
+export const messageEntityUrlToText = (
+  textWithEntities: TextWithEntities,
+  entity: tl.RawMessageEntityUrl,
+) => {
+  const offset = entity.offset;
+  const textEnd = offset + entity.length;
+  return textWithEntities.text.slice(offset, textEnd);
+};
+
+export const extractLinks = (textWithEntities: TextWithEntities): URL[] => {
+  return extractEntitiesWithUrl(textWithEntities)
+    .map((entity) => {
+      switch (entity._) {
+        case "messageEntityTextUrl":
+          return safeParseURL(entity.url);
+        case "messageEntityUrl":
+          return safeParseURL(messageEntityUrlToText(textWithEntities, entity));
+        default:
+          return undefined;
+      }
+    })
+    .filter((url): url is URL => url !== undefined);
 };
 
 export const extractForumLinks = (textWithEntities: TextWithEntities): ExtractedLink[] => {
-  const entitiesWithUrl = textWithEntities.entities?.filter((entity) =>
-    ENTITY_WITH_URL.includes(entity._),
-  );
-  if (!entitiesWithUrl) {
-    return [];
-  }
-
-  const extractedLinks = entitiesWithUrl
-    .map((entity) => {
-      if (entity._ === "messageEntityTextUrl") {
-        return extractFromUrl(parseURL(entity.url));
-      }
-
-      if (entity._ === "messageEntityUrl") {
-        const offset = entity.offset;
-        const textEnd = offset + entity.length;
-        const urlText = textWithEntities.text.slice(offset, textEnd);
-        try {
-          return extractFromUrl(parseURL(urlText));
-        } catch {
-          console.error(`Invalid URL: ${urlText}`);
-          return undefined;
-        }
-      }
-
-      return undefined;
-    })
+  const extractedLinks = extractLinks(textWithEntities)
+    .map((url) => extractFromUrl(url))
     .filter(Boolean) as ExtractedLink[];
 
   // remove duplicates

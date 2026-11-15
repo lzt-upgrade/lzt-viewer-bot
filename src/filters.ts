@@ -1,4 +1,4 @@
-import { BotKeyboard, InlineKeyboardMarkup, tl } from "@mtcute/bun";
+import { BotKeyboard, InlineKeyboardMarkup, InputInlineKeyboardButton, tl } from "@mtcute/bun";
 import type { MessageContext } from "@mtcute/dispatcher";
 
 import { env } from "./env.ts";
@@ -12,14 +12,20 @@ export const ENTITY_WITH_URL: TLEntityName[] = [
   "messageEntityUrl",
 ] as const;
 
+const isCallbackButton = (button: InputInlineKeyboardButton) => {
+  if (typeof button.type === "string") {
+    return button.type === "callback";
+  }
+
+  return button.type._ === "inlineButtonTypeCallback";
+};
+
 export const filterCallbackKbBtn = (markup: InlineKeyboardMarkup | undefined) => {
   if (!markup) {
     return undefined;
   }
 
-  const buttons = markup.buttons.map((row) =>
-    row.filter((button) => button._ !== "keyboardButtonCallback"),
-  );
+  const buttons = markup.buttons.map((row) => row.filter((button) => !isCallbackButton(button)));
 
   return BotKeyboard.inline(buttons);
 };

@@ -25,7 +25,7 @@ export abstract class UserView {
 
       const remarksText = Object.entries(user.remarks)
         .filter(([key, value]) => key !== "isHonestSeller" && value)
-        .map(([key, _]) => i18n.user.remarks[key as keyof typeof i18n.user.remarks])
+        .map(([key]) => i18n.user.remarks[key as keyof typeof i18n.user.remarks])
         .join(", ");
 
       return remarksText ? html`<b>📌 ${i18n.user.remarks.title}:</b> ${remarksText}<br />` : "";
@@ -65,8 +65,9 @@ export abstract class UserView {
 
       let reviewsField = html``;
       if (user.reviews) {
-        reviewsField = html`<a href="${user.links.market}">${user.reviews.toString()}+</a> ${i18n
-            .user.reviews}`;
+        reviewsField = html`<a href="${user.links.market}">${user.reviews.toString()}+</a> ${
+            i18n.user.reviews
+          }`;
       }
 
       if (isHonestSeller) {

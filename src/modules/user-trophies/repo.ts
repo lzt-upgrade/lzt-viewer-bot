@@ -1,6 +1,6 @@
 import { getTimestamp } from "../../api/utils";
 import { BaseRepo, db } from "../../core/db";
-import { UserTrophy } from "../../types/api/user";
+import { UserTrophy } from "../../types/api/user-trophies";
 import { DBEntry } from "../../types/db";
 
 export abstract class UserTrophiesRepo extends BaseRepo {

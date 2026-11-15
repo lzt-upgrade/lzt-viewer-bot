@@ -1,5 +1,5 @@
 import { GROUPS_WITH_BANNER, SIMPLE_GROUPS } from "./group";
-import { predictRemarks } from "./trophy";
+import type { predictRemarks } from "../user-trophies/utils";
 
 export type Group = (typeof GROUPS_WITH_BANNER)[number] | (typeof SIMPLE_GROUPS)[number];
 

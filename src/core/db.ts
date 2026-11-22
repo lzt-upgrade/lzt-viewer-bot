@@ -40,3 +40,25 @@ export abstract class BaseRepo {
     return await this.getEntry<Value>(id);
   }
 }
+
+export abstract class BaseStaticRepo {
+  static prefix = "base-static";
+
+  protected static async getEntry<Value>(id: number | string): Promise<DBEntry<Value> | undefined> {
+    return await db.get<DBEntry<Value>>(`${this.prefix}:${id}`);
+  }
+
+  protected static async setEntry<NewValue, Value>(
+    id: number | string,
+    value: NewValue,
+  ): Promise<DBEntry<Value> | undefined> {
+    const key = `${this.prefix}:${id}`;
+    await db.withLock(key, async () => {
+      await db.put(key, {
+        id,
+        ...value,
+      });
+    });
+    return await this.getEntry<Value>(id);
+  }
+}

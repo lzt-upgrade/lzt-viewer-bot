@@ -108,6 +108,17 @@ export default {
     authorInfo: "Author info",
     profileInfo: "Profile info",
   },
+  userCustomBadgeAdmin: {
+    main: "Admin badges",
+    create: "Create badge",
+    delete: "Delete badge",
+    list: "List badges",
+    userList: "User badges",
+    addToUser: "Add badge to user",
+  },
+  shared: {
+    back: "Back",
+  },
   error: {
     noUserFound: "User not found",
     noThreadFound: "Thread not found",

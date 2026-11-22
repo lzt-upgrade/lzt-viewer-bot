@@ -5,6 +5,7 @@ import { env } from "./env.ts";
 
 export const selectedGroupFilter = (msg: MessageContext) => env.GROUP_IDS.includes(msg.chat.id);
 export const dmFilter = (msg: MessageContext) => msg.chat.id === msg.sender.id;
+export const adminFilter = (msg: MessageContext) => env.ADMIN_IDS.includes(msg.sender.id);
 
 export type TLEntityName = tl.TlObject["_"];
 

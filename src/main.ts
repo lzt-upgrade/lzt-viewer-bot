@@ -1,7 +1,7 @@
-import { CallbackQueryContext, Dispatcher } from "@mtcute/dispatcher";
+import { CallbackQueryContext, Dispatcher, filters } from "@mtcute/dispatcher";
 import { TelegramClient } from "@mtcute/bun";
 
-import { dmFilter, filterCallbackKbBtn, selectedGroupFilter } from "./filters.ts";
+import { adminFilter, dmFilter, filterCallbackKbBtn, selectedGroupFilter } from "./filters.ts";
 import { env } from "./env.ts";
 import { getTransport } from "./transport.ts";
 import { ExtractedLink, extractForumLinks } from "./extractor.ts";
@@ -19,6 +19,7 @@ import { PostView } from "./modules/post/view.ts";
 import { UserTrophiesButton } from "./modules/user-trophies/keyboard.ts";
 import { UserTrophiesView } from "./modules/user-trophies/view.ts";
 import { initPrivateDM } from "./modules-private/dm.ts";
+import { UserCustomBadgeAdmin } from "./modules/user-custom-badges/view.ts";
 
 const transport = getTransport();
 
@@ -89,10 +90,7 @@ dp.onCallbackQuery(PostButton.filter({ action: "info" }), async (upd) => {
 });
 
 dp.onNewMessage(selectedGroupFilter, async (msg) => {
-  // const start = performance.now();
   const links = extractForumLinks(msg.textWithEntities);
-  // const end = performance.now();
-  // console.log(`Extracting links took ${end - start} ms.`);
 
   for (const link of links) {
     const linkViewFn = linkToView[
@@ -121,6 +119,17 @@ dp.onNewMessage(selectedGroupFilter, async (msg) => {
     });
     break;
   }
+});
+
+dp.onNewMessage(filters.and(adminFilter, dmFilter, filters.command("admin")), async (msg) => {
+  const message = await UserCustomBadgeAdmin.getPanel();
+  if (!message) {
+    return;
+  }
+
+  await msg.answerText(message.message, {
+    replyMarkup: message.keyboard,
+  });
 });
 
 dp.onNewMessage(dmFilter, async (msg) => {

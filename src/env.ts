@@ -15,6 +15,9 @@ const r = z
     GROUP_IDS: ZStringObj.pipe(z.array(z.string().regex(/^-?\d+$/))).transform((items) =>
       items.map(Number),
     ),
+    ADMIN_IDS: ZStringObj.pipe(z.array(z.string().regex(/^-?\d+$/))).transform((items) =>
+      items.map(Number),
+    ),
     FORUM_DOMAINS: ZStringObj,
     FORUM_BASE: z.optional(z.string().min(1)).default("https://lolz.live"),
     MARKET_BASE: z.optional(z.string().min(1)).default("https://lzt.market"),

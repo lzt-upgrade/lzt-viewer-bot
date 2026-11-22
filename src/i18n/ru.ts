@@ -108,6 +108,17 @@ export default {
     authorInfo: "Информация об авторе",
     profileInfo: "Информация о профиле",
   },
+  userCustomBadgeAdmin: {
+    main: "Админка бейджей",
+    create: "Создать бейдж",
+    delete: "Удалить бейдж",
+    list: "Список бейджей",
+    userList: "Бейджи пользователей",
+    addToUser: "Добавить бейдж пользователю",
+  },
+  shared: {
+    back: "Назад",
+  },
   error: {
     noUserFound: "Пользователь не найден",
     noThreadFound: "Тема не найдена",

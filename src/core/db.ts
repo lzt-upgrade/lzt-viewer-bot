@@ -44,14 +44,14 @@ export abstract class BaseRepo {
 export abstract class BaseStaticRepo {
   static prefix = "base-static";
 
-  protected static async getEntry<Value>(id: number | string): Promise<DBEntry<Value> | undefined> {
-    return await db.get<DBEntry<Value>>(`${this.prefix}:${id}`);
+  protected static async getEntry<Value>(id: number | string): Promise<Value | undefined> {
+    return await db.get<Value>(`${this.prefix}:${id}`);
   }
 
   protected static async setEntry<NewValue, Value>(
     id: number | string,
     value: NewValue,
-  ): Promise<DBEntry<Value> | undefined> {
+  ): Promise<Value | undefined> {
     const key = `${this.prefix}:${id}`;
     await db.withLock(key, async () => {
       await db.put(key, {

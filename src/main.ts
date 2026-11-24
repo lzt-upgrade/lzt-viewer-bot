@@ -20,6 +20,10 @@ import { UserTrophiesButton } from "./modules/user-trophies/keyboard.ts";
 import { UserTrophiesView } from "./modules/user-trophies/view.ts";
 import { initPrivateDM } from "./modules-private/dm.ts";
 import { UserCustomBadgeAdmin } from "./modules/user-custom-badges/view.ts";
+import {
+  handleBadgeInput,
+  registerUserCustomBadgeButtons,
+} from "./modules/user-custom-badges/events.ts";
 
 const transport = getTransport();
 
@@ -89,6 +93,8 @@ dp.onCallbackQuery(PostButton.filter({ action: "info" }), async (upd) => {
   );
 });
 
+registerUserCustomBadgeButtons(dp);
+
 dp.onNewMessage(selectedGroupFilter, async (msg) => {
   const links = extractForumLinks(msg.textWithEntities);
 
@@ -133,6 +139,10 @@ dp.onNewMessage(filters.and(adminFilter, dmFilter, filters.command("admin")), as
 });
 
 dp.onNewMessage(dmFilter, async (msg) => {
+  if (await handleBadgeInput(msg)) {
+    return;
+  }
+
   const result = await initPrivateDM(msg, tg);
   if (result) {
     return;

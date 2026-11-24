@@ -6,6 +6,7 @@ import { USED_CURRENCY } from "../../core/lzt";
 import { LinkView } from "../../types/view";
 import { env } from "../../env";
 import { UserTrophiesButton } from "../user-trophies/keyboard";
+import { UserCustomBadgeService } from "../user-custom-badges/service";
 
 export abstract class UserView {
   static async getInfo(userIdOrSlug: number | string): Promise<LinkView> {
@@ -18,15 +19,29 @@ export abstract class UserView {
     const bannedEmoji = user.banInfo.banned ? "🚫" : "✅";
     const banReason = user.banInfo.banned ? user.banInfo.reason : i18n.user.isBanned.false;
 
+    const customBadges = await (async () => {
+      try {
+        const userBadges = await UserCustomBadgeService.getUserBadges(user.id);
+        if (!userBadges || !userBadges.length) {
+          return [];
+        }
+
+        return userBadges.map((badge) => badge.text);
+      } catch {
+        return [`<⚠️ ${i18n.userCustomBadgeAdmin.failedToLoad}>`];
+      }
+    })();
+
     const remarkField = (() => {
       if (!user.remarks) {
         return "";
       }
 
-      const remarksText = Object.entries(user.remarks)
+      const userRemarks = Object.entries(user.remarks)
         .filter(([key, value]) => key !== "isHonestSeller" && value)
-        .map(([key]) => i18n.user.remarks[key as keyof typeof i18n.user.remarks])
-        .join(", ");
+        .map(([key]) => i18n.user.remarks[key as keyof typeof i18n.user.remarks]);
+
+      const remarksText = [...userRemarks, ...customBadges].join(", ");
 
       return remarksText ? html`<b>📌 ${i18n.user.remarks.title}:</b> ${remarksText}<br />` : "";
     })();

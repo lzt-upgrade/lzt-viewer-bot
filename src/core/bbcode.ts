@@ -140,7 +140,6 @@ const bbcode: Tags = {
     const href = getFirstTag(node);
     // telegram doesn't support mailto
     const text = getNodeText(node);
-    console.log(href);
     return {
       tag: "span",
       content: href ? [`${text} (${href})`] : text,

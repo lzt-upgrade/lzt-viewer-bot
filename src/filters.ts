@@ -4,7 +4,12 @@ import type { MessageContext } from "@mtcute/dispatcher";
 import { env } from "./env.ts";
 
 export const selectedGroupFilter = (msg: MessageContext) => env.GROUP_IDS.includes(msg.chat.id);
-export const dmFilter = (msg: MessageContext) => msg.chat.id === msg.sender.id;
+export const isDM = (chatId: number, senderId: number) => chatId === senderId;
+export const isAdmin = (id: number) => env.ADMIN_IDS.includes(id);
+export const isDMWithAdmin = (chatId: number, senderId: number) =>
+  isDM(chatId, senderId) && isAdmin(senderId);
+export const dmFilter = (msg: MessageContext) => isDM(msg.chat.id, msg.sender.id);
+export const adminFilter = (msg: MessageContext) => isAdmin(msg.sender.id);
 
 export type TLEntityName = tl.TlObject["_"];
 

@@ -103,6 +103,32 @@ export const extractors: Extractor[] = [
   },
 ];
 
+export const parseLztUserId = (text: string): number | undefined => {
+  if (!/^\d*$/.test(text)) {
+    return undefined;
+  }
+
+  const userId = Number(text);
+  return Number.isSafeInteger(userId) ? userId : undefined;
+};
+
+export const extractMemberFromText = (text: string) => {
+  const userId = parseLztUserId(text);
+  if (userId) {
+    return userId;
+  }
+
+  try {
+    const url = new URL(text);
+    const extracted = extractFromUrl(url);
+    if (extracted && (extracted.id === "member" || extracted.id === "custom")) {
+      return extracted.value;
+    }
+  } catch {}
+
+  return undefined;
+};
+
 export const extractFromUrl = (url: URL): ExtractedLink | undefined => {
   if (!isForumDomain(url)) {
     return undefined;

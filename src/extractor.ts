@@ -48,7 +48,7 @@ const PROFILE_POST_PATH_REGEX = /\/profile-posts\/(\d+)/;
 // const PROFILE_POST_COMMENT_PATH_REGEX = /\/profile-posts\/comments\/(\d+)/;
 const MEMBER_PATH_REGEX = /\/members\/(\d+)/;
 const CUSTOM_PATH_REGEX =
-  /^\/(?!(?:threads|rules|articles|guarantor|antipublic|members|banned|search|conversations|support-tickets|logout|login|register|(profile-)?posts|me)$)([a-zA-Z0-9-]+)\/?$/;
+  /^\/(?!(?:threads|rules|articles|guarantor|antipublic|members|banned|search|conversations|support-tickets|logout|login|register|(profile-)?posts|me)$)([a-zA-Z0-9-]+)\/?(page-\d+)?$/;
 
 const DEFAULT_EXTRACT = (match: RegExpExecArray): number | undefined =>
   match.length > 1 ? Number(match[1]) : undefined;

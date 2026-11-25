@@ -22,7 +22,7 @@ export abstract class ThreadService {
         last_post_date: updatedAt,
         post_count: posts,
         node_title: nodeTitle,
-        first_post: { likes, message_plain_text: plainText, message: bbText },
+        first_post: { reaction_score: reactions, message_plain_text: plainText, message: bbText },
       } = await lzt.getThread(threadId);
       const result = await this.set(threadId, {
         title,
@@ -35,7 +35,7 @@ export abstract class ThreadService {
         updatedAt,
         posts,
         views,
-        likes,
+        reactions,
         link: getThreadPerma(threadId),
         plainText,
         bbText,

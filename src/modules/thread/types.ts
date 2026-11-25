@@ -18,7 +18,7 @@ export type ThreadData = {
   updatedAt: number;
   posts: number;
   views: number;
-  likes: number;
+  reactions: number;
   link: string;
   plainText: string;
   bbText: string;

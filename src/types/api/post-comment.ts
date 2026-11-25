@@ -1,4 +1,5 @@
 import type { ResponseWithSystemInfo } from "./system";
+import type { ReactionData } from "./reactions";
 
 export type PostComment = {
   post_comment_id: number;
@@ -19,25 +20,22 @@ export type PostComment = {
   signature: string;
   signature_html: string;
   signature_plain_text: string;
-  likes: number;
-  like_date: number;
   edit_count: number;
   last_edit_date: number;
   last_edit_user_id: number;
   warning_id: number;
   warning_message: string;
   is_ignored: boolean;
-  is_like2_node: boolean;
-  is_liked: boolean;
+  is_reacted_to: boolean;
   can_edit: boolean;
   can_hard_delete: boolean;
-  can_like: boolean;
+  can_react: boolean;
   can_reply: boolean;
   can_report: boolean;
   can_soft_delete: boolean;
   can_undelete: boolean;
   can_view: boolean;
-};
+} & ReactionData;
 
 export type PostCommentResponse = ResponseWithSystemInfo & {
   comments: PostComment[];

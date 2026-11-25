@@ -1,7 +1,7 @@
 import { isExpired } from "../../core/db";
 import { PostRepo } from "./repo";
 import { lzt } from "../../core/lzt";
-import { getMemberPerma, getPostLikesPerma, getPostPerma, getThreadPerma } from "../../api/utils";
+import { getMemberPerma, getPostReactsPerma, getPostPerma, getThreadPerma } from "../../api/utils";
 import { CreatePostData } from "./types";
 
 export abstract class PostService {
@@ -17,7 +17,7 @@ export abstract class PostService {
         username,
         post_date: createdAt,
         update_date: updatedAt,
-        likes,
+        reaction_score,
         thread_id: threadId,
         message: bbText,
         message_plain_text: plainText,
@@ -37,9 +37,9 @@ export abstract class PostService {
         plainText,
         createdAt,
         updatedAt,
-        likes: {
-          count: likes,
-          link: getPostLikesPerma(postId),
+        reactions: {
+          count: reaction_score,
+          link: getPostReactsPerma(postId),
         },
         link: getPostPerma(postId),
       });

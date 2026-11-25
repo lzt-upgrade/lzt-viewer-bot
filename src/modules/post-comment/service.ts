@@ -3,7 +3,7 @@ import { PostCommentRepo } from "./repo";
 import { lzt } from "../../core/lzt";
 import {
   getMemberPerma,
-  getPostCommentLikesPerma,
+  getPostCommentReactsPerma,
   getPostCommentPerma,
   getPostPerma,
 } from "../../api/utils";
@@ -23,7 +23,7 @@ export abstract class PostCommentService {
         post_id: postId,
         comment_date: createdAt,
         update_date: updatedAt,
-        likes,
+        reaction_score,
         thread_id: threadId,
         message: bbText,
         message_plain_text: plainText,
@@ -44,11 +44,11 @@ export abstract class PostCommentService {
         plainText,
         createdAt,
         updatedAt,
-        likes: {
-          count: likes,
-          link: getPostCommentLikesPerma(postId),
+        reactions: {
+          count: reaction_score,
+          link: getPostCommentReactsPerma(postCommentId),
         },
-        link: getPostCommentPerma(postId),
+        link: getPostCommentPerma(postCommentId),
       });
 
       return result?.value;

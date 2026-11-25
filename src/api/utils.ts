@@ -23,22 +23,21 @@ export const getThreadPerma = (threadId: number) => `${env.FORUM_BASE}/threads/$
 
 export const getPostPerma = (postId: number) => `${env.FORUM_BASE}/posts/${postId}`;
 
-export const getPostLikesPerma = (postId: number) => `${getPostPerma(postId)}/likes`;
+export const getPostReactsPerma = (postId: number) => `${getPostPerma(postId)}/reactions`;
 
 export const getPostCommentPerma = (postId: number) => `${env.FORUM_BASE}/posts/comments/${postId}`;
 
-export const getPostCommentLikesPerma = (postId: number) => `${getPostCommentPerma(postId)}/likes`;
+export const getPostCommentReactsPerma = (postId: number) =>
+  `${getPostCommentPerma(postId)}/reactions`;
 
 export const getMemberPerma = (memberId: number) => `${env.FORUM_BASE}/members/${memberId}`;
 
 export const getForumsPerma = (forumId: number) => `${env.FORUM_BASE}/forums/${forumId}`;
 
-export const getMemberSympathiesPerma = (memberId: number) => `${getMemberPerma(memberId)}/likes`;
+export const getMemberReactsPerma = (memberId: number) => `${getMemberPerma(memberId)}/reactions`;
 
 export const getMemberMessagesPerma = (username: string) =>
   `${env.FORUM_BASE}/search/search?users=${username}&content=post`;
-
-export const getMemberLikesPerma = (memberId: number) => `${getMemberPerma(memberId)}/likes2`;
 
 export const getMemberTrophiesPerma = (memberId: number) => `${getMemberPerma(memberId)}/#trophies`;
 
@@ -51,8 +50,8 @@ export const getMemberFollowersPerma = (memberId: number) =>
 export const getProfilePostPerma = (profilePostId: number) =>
   `${env.FORUM_BASE}/profile-posts/${profilePostId}`;
 
-export const getProfilePostLikesPerma = (profilePostId: number) =>
-  `${getProfilePostPerma(profilePostId)}/likes`;
+export const getProfilePostReactsPerma = (profilePostId: number) =>
+  `${getProfilePostPerma(profilePostId)}/reactions`;
 
 export const getProfilePostCommentsPerma = (profilePostId: number) =>
   `${getProfilePostPerma(profilePostId)}/comments`;

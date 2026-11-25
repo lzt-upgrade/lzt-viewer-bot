@@ -4,7 +4,7 @@ import { lzt } from "../../core/lzt";
 import {
   getMemberPerma,
   getProfilePostCommentsPerma,
-  getProfilePostLikesPerma,
+  getProfilePostReactsPerma,
   getProfilePostPerma,
 } from "../../api/utils";
 import { CreateProfilePostData } from "./types";
@@ -19,15 +19,15 @@ export abstract class ProfilePostService {
     try {
       const data = await lzt.getProfilePost(profilePostId);
       const {
-        poster_user_id: ownerId,
-        poster_username: username,
-        post_create_date: createdAt,
-        post_like_count: likes,
-        post_comment_count: comments,
-        post_body: bbText,
-        post_body_plain_text: plainText,
-        timeline_user_id: profileId,
-        timeline_username: profileUsername,
+        user_id: ownerId,
+        username,
+        post_date: createdAt,
+        reaction_score: reactions,
+        comment_count: comments,
+        message: bbText,
+        message_plain_text: plainText,
+        profile_user_id: profileId,
+        profile_user: { username: profileUsername },
       } = data;
 
       const result = await this.set(profilePostId, {
@@ -44,9 +44,9 @@ export abstract class ProfilePostService {
         bbText,
         plainText,
         createdAt,
-        likes: {
-          count: likes,
-          link: getProfilePostLikesPerma(profilePostId),
+        reactions: {
+          count: reactions,
+          link: getProfilePostReactsPerma(profilePostId),
         },
         comments: {
           count: comments,

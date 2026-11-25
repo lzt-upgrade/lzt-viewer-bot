@@ -64,11 +64,10 @@ export type Thread = {
   post_count: number;
   reply_count: number;
   visitor_post_count: number;
-  is_liked: boolean;
+  is_reacted_to: boolean;
   is_bumped: boolean;
   is_hidden: boolean;
   is_hot: boolean;
-  is_like2_node: boolean;
   is_unread: boolean;
   is_watched: boolean;
   is_starred: boolean;
@@ -80,7 +79,7 @@ export type Thread = {
   discussion_type: string;
   first_post: Post;
   first_post_id: number;
-  first_post_likes: number;
+  first_post_reaction_score: number;
   last_post_id: number;
   last_post_date: number;
   last_post_user_id: number;

@@ -154,8 +154,7 @@ export type User = {
   username_html: string;
   user_message_count: number;
   user_register_date: number;
-  user_like_count: number;
-  user_like2_count: number;
+  user_reaction_score: number;
   contest_count: number;
   trophy_count: number;
   short_link: string;

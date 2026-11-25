@@ -1,4 +1,12 @@
-import { ResponseWithSystemInfo } from "./system";
+import type { ResponseWithSystemInfo } from "./system";
+import type { ReactionData } from "./reactions";
+
+export type ReactionUser = {
+  user_id: number;
+  username: string;
+  reaction_id: number;
+  quantity: number;
+};
 
 export type Post = {
   post_id: number;
@@ -20,8 +28,6 @@ export type Post = {
   signature: string;
   signature_html: string;
   signature_plain_text: string;
-  likes: number;
-  like_date: number;
   comment_count: number;
   position: number;
   edit_count: number;
@@ -34,14 +40,12 @@ export type Post = {
   is_sticked: boolean;
   is_first_post: boolean;
   is_last_post: boolean;
-  is_like2_node: boolean;
-  is_liked: boolean;
   is_unread: boolean;
   thread_is_deleted: boolean;
   thread_is_closed: boolean;
   can_edit: boolean;
   can_hard_delete: boolean;
-  can_like: boolean;
+  can_react: boolean;
   can_reply: boolean;
   can_report: boolean;
   can_soft_delete: boolean;
@@ -49,7 +53,7 @@ export type Post = {
   can_undelete: boolean;
   can_unstick: boolean;
   can_view: boolean;
-};
+} & ReactionData;
 
 export type PostResponse = ResponseWithSystemInfo & {
   post: Post;

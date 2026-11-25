@@ -5,8 +5,7 @@ export type Group = (typeof GROUPS_WITH_BANNER)[number] | (typeof SIMPLE_GROUPS)
 
 export type UserLinksData = {
   messages: string;
-  sympathies: string;
-  likes: string;
+  reactions: string;
   trophies: string;
   followers: string;
   followings: string;
@@ -29,8 +28,7 @@ export type UserData = {
   username: string;
   messages: number;
   deposit: number;
-  sympathies: number;
-  likes: number;
+  reactions: number;
   views: number | undefined;
   sells: number | undefined;
   reviews: number | undefined;

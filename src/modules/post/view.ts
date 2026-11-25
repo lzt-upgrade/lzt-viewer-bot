@@ -22,8 +22,8 @@ export abstract class PostView {
         ${i18n.post.by}
         <a href="${post.owner.link}"> ${post.owner.username} </a> <br /><br />
 
-        <b>🖤 ${i18n.post.likes}:</b>
-        <a href="${post.likes.link}">${post.likes.count.toString()}</a><br />
+        <b>🖤 ${i18n.post.reacts}:</b>
+        <a href="${post.reactions.link}">${post.reactions.count.toString()}</a><br />
         <b>🔍 ${i18n.post.content}:</b><br />
         ${messageText}`,
       keyboard: BotKeyboard.inline([

@@ -1,6 +1,6 @@
 import { OwnerData } from "../../types/modules/owner";
 
-export type LikesCommentsData = {
+export type ProfilePostChildData = {
   count: number;
   link: string;
 };
@@ -14,8 +14,8 @@ export type ProfileData = {
 export type ProfilePostData = {
   id: number;
   owner: OwnerData;
-  likes: LikesCommentsData;
-  comments: LikesCommentsData;
+  reactions: ProfilePostChildData;
+  comments: ProfilePostChildData;
   profile: ProfileData;
   plainText: string;
   bbText: string;

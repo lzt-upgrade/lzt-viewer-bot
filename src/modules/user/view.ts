@@ -99,10 +99,8 @@ export abstract class UserView {
     const messageBody = html`${depositField}
       <b>✉️ ${i18n.user.messages}:</b>
       <a href="${user.links.messages}">${user.messages.toString()}</a><br />
-      <b>❤️ ${i18n.user.sympathies}:</b>
-      <a href="${user.links.sympathies}">${user.sympathies.toString()}</a><br />
-      <b>🖤 ${i18n.user.likes}:</b>
-      <a href="${user.links.likes}">${user.likes.toString()}</a><br />
+      <b>❤️ ${i18n.user.reacts}:</b>
+      <a href="${user.links.reactions}">${user.reactions.toString()}</a><br />
       ${viewsField} ${sellsField} ${reportsField}
       <b>🏆 ${i18n.user.trophies}:</b>
       <a href="${user.links.trophies}">${user.trophies.toString()}</a><br />

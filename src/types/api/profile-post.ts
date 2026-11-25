@@ -1,51 +1,40 @@
+import { ReactionData } from "./reactions";
 import { ResponseWithSystemInfo } from "./system";
 import { User } from "./user";
 
-export type ProfilePostPerms = {
-  view: boolean;
-  edit: boolean;
-  delete: boolean;
-  like: boolean;
-  comment: boolean;
-  report: boolean;
-  stick: boolean;
-};
-
-export type ProfilePostLinks = {
-  permalink: string;
-  detail: string;
-  timeline: string;
-  timeline_user: string;
-  poster: string;
-  likes: string;
-  comments: string;
-  report: string;
-  poster_avatar: string;
-};
-
 export type ProfilePost = {
+  can_comment: boolean;
+  can_edit: boolean;
+  can_hard_delete: boolean;
+  can_react: boolean;
+  can_report: boolean;
+  can_soft_delete: boolean;
+  can_stick: boolean;
+  can_undelete: boolean;
+  can_view: boolean;
+  comment_count: number;
+  disable_comments: boolean;
+  first_comment_date: number;
+  is_ignored: boolean;
+  is_reacted_to: boolean;
+  is_sticked: boolean;
+  last_comment_date: number;
+  message: string;
+  message_html: string;
+  message_plain_text: string;
+  message_state: "visible";
+  post_date: number;
   profile_post_id: number;
-  timeline_user_id: number;
-  poster_user_id: number;
-  poster_username: string;
-  poster_username_html: string;
-  post_create_date: number;
-  post_body: string;
-  post_body_html: string;
-  post_body_plain_text: string;
-  post_like_count: number;
-  post_comment_count: number;
-  post_comments_is_disabled: number;
-  timeline_username: string;
-  user_is_ignored: boolean;
-  post_is_published: boolean;
-  post_is_deleted: boolean;
-  post_is_liked: boolean;
-  post_is_sticked: boolean;
-  links: ProfilePostLinks;
-  permissions: ProfilePostPerms;
-  timeline_user: User;
-};
+  profile_user: User;
+  profile_user_id: number;
+  sticky_user_id: number;
+  user: User;
+  user_id: number;
+  username: string;
+  view_url: string;
+  warning_id: number;
+  warning_message: string;
+} & ReactionData;
 
 export type ProfilePostResponse = ResponseWithSystemInfo & {
   profile_post: ProfilePost;

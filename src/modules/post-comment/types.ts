@@ -5,7 +5,7 @@ export type PostCommentPostData = {
   link: string;
 };
 
-export type LikesData = {
+export type ReactsData = {
   count: number;
   link: string;
 };
@@ -17,7 +17,7 @@ export type PostCommentData = {
   owner: OwnerData;
   plainText: string;
   bbText: string;
-  likes: LikesData;
+  reactions: ReactsData;
   createdAt: number;
   updatedAt: number;
   link: string;

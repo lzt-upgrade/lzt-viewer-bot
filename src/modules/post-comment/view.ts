@@ -25,8 +25,8 @@ export abstract class PostCommentView {
         ${i18n.post.to}
         <a href="${postComment.post.link}"> ${i18n.post.toComment}</a>
         <br />
-        <b>🖤 ${i18n.post.likes}:</b>
-        <a href="${postComment.likes.link}">${postComment.likes.count.toString()}</a><br />
+        <b>🖤 ${i18n.post.reacts}:</b>
+        <a href="${postComment.reactions.link}">${postComment.reactions.count.toString()}</a><br />
         <b>🔍 ${i18n.post.content}:</b><br />
         ${messageText}`,
       keyboard: BotKeyboard.inline([

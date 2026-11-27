@@ -1,10 +1,10 @@
 import { html } from "@mtcute/html-parser";
-import { BotKeyboard } from "@mtcute/bun";
+import { BotKeyboard, InputMedia } from "@mtcute/bun";
 
 import { ThreadService } from "./service";
 import i18n from "../../i18n";
 import { MemberButton } from "../user/keyboard";
-import { getTextByBBcode } from "../../core/bbcode";
+import { extractFirstImageWithLimit, getTextByBBcode } from "../../core/bbcode";
 
 export abstract class ThreadView {
   static async getInfo(threadId: number) {
@@ -15,6 +15,7 @@ export abstract class ThreadView {
     }
 
     let messageText = getTextByBBcode(thread.bbText, thread.plainText);
+    const firstImgUrl = extractFirstImageWithLimit(thread.bbText, thread.plainText);
     return {
       message: html`<b>📄 ${i18n.thread.main}:</b> <a href="${thread.link}">${thread.title}</a
         ><br />
@@ -36,6 +37,11 @@ export abstract class ThreadView {
           ),
         ],
       ]),
+      ...(firstImgUrl
+        ? {
+            media: InputMedia.photo(firstImgUrl),
+          }
+        : {}),
     };
   }
 }

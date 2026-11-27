@@ -6,6 +6,8 @@ import { PostCommentView } from "../modules/post-comment/view";
 import { UserView } from "../modules/user/view";
 import { ProfilePostView } from "../modules/profile-post/view";
 
+export const SHOW_IMAGE_MAX_LENGTH = 512;
+
 export const linkToView: LinkToView<NumExtractedLink> | LinkToView<StrExtractedLink> = {
   thread: ThreadView.getInfo,
   post: PostView.getInfo,

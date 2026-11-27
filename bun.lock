@@ -8,6 +8,7 @@
         "@bbob/core": "^4.4.1",
         "@bbob/html": "^4.4.1",
         "@bbob/parser": "^4.4.1",
+        "@bbob/plugin-helper": "^4.5.0",
         "@bbob/preset": "^4.4.1",
         "@harperfast/rocksdb-js": "^2.14.0",
         "@mtcute/bun": "^0.32.8",
@@ -35,7 +36,7 @@
 
     "@bbob/parser": ["@bbob/parser@4.4.1", "", { "dependencies": { "@bbob/plugin-helper": "*", "@bbob/types": "*" } }, "sha512-Hs6caDSsY5zJdZZpj7ohTz4hQZGKPL+ZgZy+qbgDtfD9WV2YGxFGtXQf7PBu/aIRKOrkGgbCQxDYWlCEyONi9w=="],
 
-    "@bbob/plugin-helper": ["@bbob/plugin-helper@4.4.1", "", { "dependencies": { "@bbob/types": "*" } }, "sha512-vTjwNiiIHhihyD41DuxrUFVCuGPr1EB1fXvy5+HHnmcvWmOH5BzPSgSEs+KCdpWF+hIDMAho2toAHiDmYurCJQ=="],
+    "@bbob/plugin-helper": ["@bbob/plugin-helper@4.5.0", "", { "dependencies": { "@bbob/types": "*" } }, "sha512-zxCAaqcX0/Zd3oSgFqcqVYm5DyYEXVdTzrbXogmwJLbMLMxqYyT1qbpPdniGwEkvutodZgDssM/8oDmSaYw0oA=="],
 
     "@bbob/preset": ["@bbob/preset@4.4.1", "", { "dependencies": { "@bbob/plugin-helper": "*", "@bbob/types": "*" } }, "sha512-QX68ZKgmX8oLzB7TRaoUlXXX+CN/Mf/TtczH29QIHzwWNTXze04/4njYNulzmIJC7/VcABkK7feEbw8M96rU8Q=="],
 
@@ -296,6 +297,14 @@
     "undici-types": ["undici-types@8.9.0", "", {}, "sha512-KTDyRTYX8sWmKXAikPHHSyc63CRPETMctyjKFupcC6OBLXT3xsN0e9aF7m+mIXutFWpUXuedtowG7iLOzp0kQg=="],
 
     "zod": ["zod@4.6.7", "", {}, "sha512-g8W2D2kU6a8untc053fX1uVBKzM7yqAxW/3zwk83+6RyF2+SKOuV+c0wBDhUwzV1PaGapmZH+rmcUzPf+3CGwg=="],
+
+    "@bbob/core/@bbob/plugin-helper": ["@bbob/plugin-helper@4.4.1", "", { "dependencies": { "@bbob/types": "*" } }, "sha512-vTjwNiiIHhihyD41DuxrUFVCuGPr1EB1fXvy5+HHnmcvWmOH5BzPSgSEs+KCdpWF+hIDMAho2toAHiDmYurCJQ=="],
+
+    "@bbob/html/@bbob/plugin-helper": ["@bbob/plugin-helper@4.4.1", "", { "dependencies": { "@bbob/types": "*" } }, "sha512-vTjwNiiIHhihyD41DuxrUFVCuGPr1EB1fXvy5+HHnmcvWmOH5BzPSgSEs+KCdpWF+hIDMAho2toAHiDmYurCJQ=="],
+
+    "@bbob/parser/@bbob/plugin-helper": ["@bbob/plugin-helper@4.4.1", "", { "dependencies": { "@bbob/types": "*" } }, "sha512-vTjwNiiIHhihyD41DuxrUFVCuGPr1EB1fXvy5+HHnmcvWmOH5BzPSgSEs+KCdpWF+hIDMAho2toAHiDmYurCJQ=="],
+
+    "@bbob/preset/@bbob/plugin-helper": ["@bbob/plugin-helper@4.4.1", "", { "dependencies": { "@bbob/types": "*" } }, "sha512-vTjwNiiIHhihyD41DuxrUFVCuGPr1EB1fXvy5+HHnmcvWmOH5BzPSgSEs+KCdpWF+hIDMAho2toAHiDmYurCJQ=="],
 
     "bun-types/undici-types": ["undici-types@8.12.4", "", {}, "sha512-GNCQH3MbVGB8OAVAoTiLH8pu4wx5Ni3DWKpnBzGj3WDsi8EwmK0aOVBooNEt+g5YL1eHPxcS9XUTouwFU6j1kQ=="],
 

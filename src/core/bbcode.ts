@@ -1,11 +1,15 @@
 import bbob from "@bbob/core";
 import createPreset from "@bbob/preset";
 import { render } from "@bbob/html";
+import { TagNodeTree } from "@bbob/types";
+import { isTagNode } from "@bbob/plugin-helper";
+import { TagNode } from "@bbob/parser";
+import { thtml } from "@mtcute/html-parser";
+
 import { getMemberPerma } from "../api/utils";
 import { env } from "../env";
-import { thtml } from "@mtcute/html-parser";
 import { truncateHtml } from "./html";
-import { TagNode } from "@bbob/parser";
+import { SHOW_IMAGE_MAX_LENGTH } from "./view";
 
 type TagsDefination = Parameters<typeof createPreset>[0];
 type TagDefinationFunc = TagsDefination[keyof TagsDefination];
@@ -381,4 +385,68 @@ export const getTextByBBcode = (bbText: string, plainText: string) => {
   }
 
   return plainText;
+};
+
+export const renderExtractImg = (nodes?: TagNodeTree) => {
+  if (nodes && Array.isArray(nodes)) {
+    return nodes.reduce<string>((result, node) => {
+      if (result) {
+        return result;
+      }
+
+      const url = renderImgNodeAsText(node);
+      if (url.startsWith("https://")) {
+        return url;
+      }
+
+      return result;
+    }, "");
+  }
+
+  if (nodes) {
+    return renderImgNodeAsText(nodes);
+  }
+
+  return "";
+};
+
+export const renderImgNodeAsText = (node?: TagNodeTree): string => {
+  if (typeof node === "undefined" || node === null) {
+    return "";
+  }
+
+  if (typeof node === "string" || typeof node === "number") {
+    return String(node);
+  }
+
+  if (Array.isArray(node)) {
+    return renderExtractImg(node);
+  }
+
+  if (isTagNode(node)) {
+    if (node.tag === "img") {
+      return String(node.content);
+    }
+
+    return renderExtractImg(node.content);
+  }
+
+  return "";
+};
+
+export const extractFirstImage = (bbText: string) => {
+  return bbob().process(bbText, {
+    caseFreeTags: true,
+    enableEscapeTags: true,
+    contextFreeTags: ["IMG"],
+    render: renderImgNodeAsText,
+  }).html;
+};
+
+export const extractFirstImageWithLimit = (bbText: string, plainText: string) => {
+  if (bbText && plainText.length < SHOW_IMAGE_MAX_LENGTH) {
+    return extractFirstImage(bbText);
+  }
+
+  return undefined;
 };

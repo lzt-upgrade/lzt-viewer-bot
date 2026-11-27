@@ -1,9 +1,9 @@
 import { html } from "@mtcute/html-parser";
-import { BotKeyboard } from "@mtcute/bun";
+import { BotKeyboard, InputMedia } from "@mtcute/bun";
 
 import i18n from "../../i18n";
 import { PostCommentService } from "./service";
-import { getTextByBBcode } from "../../core/bbcode";
+import { getTextByBBcode, extractFirstImageWithLimit } from "../../core/bbcode";
 import { MemberButton } from "../user/keyboard";
 import { ThreadButton } from "../thread/keyboard";
 import { PostButton } from "../post/keyboard";
@@ -17,7 +17,7 @@ export abstract class PostCommentView {
     }
 
     const messageText = getTextByBBcode(postComment.bbText, postComment.plainText);
-
+    const firstImgUrl = extractFirstImageWithLimit(postComment.bbText, postComment.plainText);
     return {
       message: html`<b>📄 <a href="${postComment.link}">${i18n.post.main} </a> </b>
         ${i18n.post.by}
@@ -57,6 +57,11 @@ export abstract class PostCommentView {
           ),
         ],
       ]),
+      ...(firstImgUrl
+        ? {
+            media: InputMedia.photo(firstImgUrl),
+          }
+        : {}),
     };
   }
 }

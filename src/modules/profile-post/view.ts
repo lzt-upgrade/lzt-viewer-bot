@@ -1,9 +1,9 @@
 import { html } from "@mtcute/html-parser";
-import { BotKeyboard } from "@mtcute/bun";
+import { BotKeyboard, InputMedia } from "@mtcute/bun";
 
 import i18n from "../../i18n";
 import { ProfilePostService } from "./service";
-import { getTextByBBcode } from "../../core/bbcode";
+import { getTextByBBcode, extractFirstImageWithLimit } from "../../core/bbcode";
 import { MemberButton } from "../user/keyboard";
 
 export abstract class ProfilePostView {
@@ -15,7 +15,7 @@ export abstract class ProfilePostView {
     }
 
     const messageText = getTextByBBcode(profilePost.bbText, profilePost.plainText);
-
+    const firstImgUrl = extractFirstImageWithLimit(profilePost.bbText, profilePost.plainText);
     return {
       message: html`<b>📄 <a href="${profilePost.link}">${i18n.profilePost.main}</a> </b>
         <a href="${profilePost.profile.link}">${profilePost.profile.username}</a>
@@ -47,6 +47,11 @@ export abstract class ProfilePostView {
           ),
         ],
       ]),
+      ...(firstImgUrl
+        ? {
+            media: InputMedia.photo(firstImgUrl),
+          }
+        : {}),
     };
   }
 }

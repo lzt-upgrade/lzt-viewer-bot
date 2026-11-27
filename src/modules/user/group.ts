@@ -52,28 +52,28 @@ export function parseUserBanner(banner: string) {
   }
 }
 
-export function sympathiesToGroup(sympathies: number): string | undefined {
-  if (sympathies < 20) {
+export function reactsToGroup(reacts: number): string | undefined {
+  if (reacts < 20) {
     return i18n.group.newbie;
   }
 
-  if (sympathies >= 111_111) {
+  if (reacts >= 111_111) {
     return i18n.group.Greatest;
   }
 
-  if (sympathies >= 10_000) {
+  if (reacts >= 10_000) {
     return i18n.group.Ikarus;
   }
 
-  if (sympathies >= 4000) {
+  if (reacts >= 4000) {
     return i18n.group.guru;
   }
 
-  if (sympathies >= 1000) {
+  if (reacts >= 1000) {
     return i18n.group.expert;
   }
 
-  if (sympathies >= 200) {
+  if (reacts >= 200) {
     return i18n.group.resident;
   }
 
@@ -91,7 +91,7 @@ export function hasUniqGroup(user: User): boolean {
 
 export function predictGroup(user: User): string | undefined {
   const groupsByBanner = parseUserBanner(user.banner);
-  // i prefer add priority to other groups, because Ikarus can be converted by sympathies
+  // i prefer add priority to other groups, because Ikarus can be converted by reacts
   if (groupsByBanner?.length && !(groupsByBanner.length === 1 && groupsByBanner[0] === "Ikarus")) {
     return groupsByBanner.map((group) => (i18n.group as any)[group]).join(", ");
   }
@@ -104,5 +104,5 @@ export function predictGroup(user: User): string | undefined {
     return i18n.group.uniq;
   }
 
-  return sympathiesToGroup(user.user_like_count);
+  return reactsToGroup(user.user_reaction_score);
 }

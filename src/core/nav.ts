@@ -6,7 +6,7 @@ export type NavOptions = {
   offset?: number;
   pageSize?: number;
   callbackBuilder: CallbackDataBuilder<string>;
-  callbackData: object;
+  callbackData: Record<string, string>;
   backButtonCb?: string;
   hasNext?: boolean;
 };

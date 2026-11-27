@@ -1,5 +1,10 @@
+import path from "node:path";
 import { MaybePromise } from "bun";
 import { Key, RocksDatabase } from "@harperfast/rocksdb-js";
+import { BunWorkerDialect } from "kysely-bun-worker";
+import { CompiledQuery, Kysely } from "kysely";
+import type { RemarkTable, UserRemarkTable } from "../modules/remark/sctema";
+
 import { DBEntry } from "../types/db";
 import { getTimestamp } from "../api/utils";
 
@@ -10,6 +15,21 @@ class TypedRocksDatabase extends RocksDatabase {
 }
 
 export const db: TypedRocksDatabase = TypedRocksDatabase.open("db-data");
+const dialect = new BunWorkerDialect({
+  url: path.join(__dirname, "..", "..", "persist.db"),
+  async onCreateConnection(connection) {
+    await connection.executeQuery(CompiledQuery.raw("PRAGMA foreign_keys = ON"));
+  },
+});
+
+export type Database = {
+  remark: RemarkTable;
+  user_remarks: UserRemarkTable;
+};
+
+export const adminDb = new Kysely<Database>({
+  dialect,
+});
 
 export const isExpired = <T>(entry: DBEntry<T>) => {
   return entry.expiresAt < getTimestamp();

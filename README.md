@@ -35,6 +35,7 @@ P.S.: Formatting is preserved as much as Telegram allows
 API_ID= #tg api id
 API_HASH= # tg api hash
 BOT_TOKEN= # bot token
+ADMIN_IDS=132123,3223 # admin user ids
 GROUP_IDS=123,213,-12321 # allowed groups id (!!!required!!!)
 FORUM_DOMAINS=lolz.guru,lolz.live,lolz.team,zelenka.guru # supported forum domains
 LZT_API_TOKEN= # your lzt api token
@@ -64,6 +65,7 @@ REMOVE_HIDDEN_CONTENT_TAG=false # remove hidden content tag from messages (if di
 bun install --frozen-lockfile
 cp .env.example .env
 # edit .env
+bun migrate
 bun start
 ```
 

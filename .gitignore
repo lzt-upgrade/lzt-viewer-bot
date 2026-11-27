@@ -1,6 +1,7 @@
 db-data
 src/modules-private/*
 !src/modules-private/dm.ts
+persist.db*
 
 cache
 node_modules/

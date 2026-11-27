@@ -19,11 +19,8 @@ import { PostView } from "./modules/post/view.ts";
 import { UserTrophiesButton } from "./modules/user-trophies/keyboard.ts";
 import { UserTrophiesView } from "./modules/user-trophies/view.ts";
 import { initPrivateDM } from "./modules-private/dm.ts";
-import { UserCustomBadgeAdmin } from "./modules/user-custom-badges/view.ts";
-import {
-  handleBadgeInput,
-  registerUserCustomBadgeButtons,
-} from "./modules/user-custom-badges/events.ts";
+import { UserCustomBadgeAdmin } from "./modules/remark/view.ts";
+import { handleBadgeInput, registerUserCustomBadgeButtons } from "./modules/remark/events.ts";
 
 const transport = getTransport();
 

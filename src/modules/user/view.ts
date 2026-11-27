@@ -6,7 +6,7 @@ import { USED_CURRENCY } from "../../core/lzt";
 import { LinkView } from "../../types/view";
 import { env } from "../../env";
 import { UserTrophiesButton } from "../user-trophies/keyboard";
-import { UserCustomBadgeService } from "../user-custom-badges/service";
+import { RemarkService } from "../remark/service";
 
 export abstract class UserView {
   static async getInfo(userIdOrSlug: number | string): Promise<LinkView> {
@@ -21,14 +21,14 @@ export abstract class UserView {
 
     const customBadges = await (async () => {
       try {
-        const userBadges = await UserCustomBadgeService.getUserBadges(user.id);
+        const userBadges = await RemarkService.getAllByUserId(user.id);
         if (!userBadges || !userBadges.length) {
           return [];
         }
 
-        return userBadges.map((badge) => badge.text);
+        return userBadges.map((badge) => badge.remarkName);
       } catch {
-        return [`<⚠️ ${i18n.userCustomBadgeAdmin.failedToLoad}>`];
+        return [`<⚠️ ${i18n.userCustomRemarkAdmin.failedToLoad}>`];
       }
     })();
 

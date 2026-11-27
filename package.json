@@ -1,6 +1,6 @@
 {
   "name": "lzt-viewer-bot",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "license": "MIT",
   "type": "module",
   "scripts": {
@@ -9,7 +9,10 @@
     "fmt": "oxfmt",
     "fmt:check": "oxfmt --check",
     "dev": "bun --watch ./src/main.ts",
-    "start": "bun ./src/main.ts"
+    "start": "bun ./src/main.ts",
+    "migrate": "MIGRATOR_ACTION=upgrade bun run src/migrator.ts",
+    "migrate:up": "bun run migrate",
+    "migrate:down": "MIGRATOR_ACTION=downgrade bun run src/migrator.ts"
   },
   "dependencies": {
     "@bbob/core": "^4.4.1",
@@ -20,7 +23,8 @@
     "@mtcute/bun": "^0.32.8",
     "@mtcute/dispatcher": "^0.32.8",
     "@mtcute/html-parser": "^0.32.8",
-    "nanoid": "^6.0.2",
+    "kysely": "^0.29.9",
+    "kysely-bun-worker": "^2.0.1",
     "node-html-parser": "^9.0.7",
     "zod": "^4.6.7"
   },

@@ -137,7 +137,6 @@ export default {
     back: "Назад",
     unknownError: "Неизвестная ошибка",
     forbidden: "Доступ запрещен",
-    pcs: "шт.",
     thinking: "Думаю...",
   },
   nav: {

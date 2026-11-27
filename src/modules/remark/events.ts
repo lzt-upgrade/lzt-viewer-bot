@@ -10,7 +10,7 @@ import {
   RemarkUserInfoButton,
   RemarkUsersByBadgeButton,
 } from "./keyboard.ts";
-import { UserCustomBadgeAdmin } from "./view.ts";
+import { RemarkAdmin } from "./view.ts";
 import { RemarkService } from "./service.ts";
 import { extractMemberFromText } from "../../extractor.ts";
 import { UserService } from "../user/service.ts";
@@ -65,7 +65,7 @@ const startRemarkActionFlow = (
   });
 };
 
-export function registerUserCustomBadgeButtons(dp: Dispatcher) {
+export function registerRemarkButtons(dp: Dispatcher) {
   dp.onCallbackQuery(RemarkListButton.filter({}), async (upd) => {
     if (!isDMWithAdmin(upd.chat.id, upd.user.id)) {
       return await upd.answer({
@@ -74,7 +74,7 @@ export function registerUserCustomBadgeButtons(dp: Dispatcher) {
     }
 
     const offset = Number.parseInt(upd.match.offset, 10) || 0;
-    const view = await UserCustomBadgeAdmin.getList(offset);
+    const view = await RemarkAdmin.getList(offset);
     if (!view) {
       return await upd.answer({
         text: i18n.shared.unknownError,
@@ -95,7 +95,7 @@ export function registerUserCustomBadgeButtons(dp: Dispatcher) {
     }
 
     await upd.answer({});
-    const view = await UserCustomBadgeAdmin.getPanel();
+    const view = await RemarkAdmin.getList();
     if (!view) {
       return await upd.answer({
         text: i18n.shared.unknownError,
@@ -140,7 +140,7 @@ export function registerUserCustomBadgeButtons(dp: Dispatcher) {
     startRemarkActionFlow(upd.user.id, remark.id, "addToUser");
   });
 
-  dp.onCallbackQuery(RemarkActionButton.filter({ action: "takeoff_badge" }), async (upd) => {
+  dp.onCallbackQuery(RemarkActionButton.filter({ action: "takeoff_remark" }), async (upd) => {
     const remarkId = Number(upd.match.id);
     if (!isDMWithAdmin(upd.chat.id, upd.user.id) || Number.isNaN(remarkId)) {
       return await upd.answer({
@@ -174,7 +174,7 @@ export function registerUserCustomBadgeButtons(dp: Dispatcher) {
     }
 
     await upd.answer({});
-    const view = await UserCustomBadgeAdmin.getUserListByBadge(remarkId, offset);
+    const view = await RemarkAdmin.getUserListByBadge(remarkId, offset);
     if (!view) {
       return await upd.answer({
         text: i18n.shared.unknownError,
@@ -184,7 +184,7 @@ export function registerUserCustomBadgeButtons(dp: Dispatcher) {
     await upd.editMessage({ text: view.message, replyMarkup: view.keyboard });
   });
 
-  dp.onCallbackQuery(RemarkActionButton.filter({ action: "delete_badge" }), async (upd) => {
+  dp.onCallbackQuery(RemarkActionButton.filter({ action: "delete_remark" }), async (upd) => {
     if (!isDMWithAdmin(upd.chat.id, upd.user.id)) {
       return await upd.answer({
         text: i18n.shared.forbidden,
@@ -207,7 +207,7 @@ export function registerUserCustomBadgeButtons(dp: Dispatcher) {
     await upd.answer({});
     await RemarkService.delete(remarkId);
 
-    const view = await UserCustomBadgeAdmin.getList();
+    const view = await RemarkAdmin.getList();
     if (!view) {
       return await upd.answer({
         text: i18n.shared.unknownError,
@@ -224,7 +224,7 @@ export function registerUserCustomBadgeButtons(dp: Dispatcher) {
       return;
     }
 
-    const view = await UserCustomBadgeAdmin.getBadgeInfo(remarkId);
+    const view = await RemarkAdmin.getBadgeInfo(remarkId);
     if (!view) {
       return await upd.answer({
         text: i18n.shared.unknownError,
@@ -245,7 +245,7 @@ export function registerUserCustomBadgeButtons(dp: Dispatcher) {
       return;
     }
 
-    const view = await UserCustomBadgeAdmin.getUserInfo(Number(userId), offset);
+    const view = await RemarkAdmin.getUserInfo(Number(userId), offset);
     if (!view) {
       return await upd.answer({
         text: i18n.shared.unknownError,
@@ -275,7 +275,7 @@ async function handleCreateBadgeInput(
 
     await msg.answerText(`${i18n.userCustomRemarkAdmin.remarkCreated}. ID: ${result.id}`);
   } catch (error) {
-    console.error("Failed to create custom badge, because", error);
+    console.error("Failed to create custom remark, because", error);
     await msg.answerText(i18n.userCustomRemarkAdmin.failedToCreateTryAgain);
   }
 
@@ -321,7 +321,7 @@ async function handleAddToUserInput(
         ${String(remarkInfo.id)}) → <a href="${user.link}">${username}</a> (ID: ${String(user.id)})`,
     );
   } catch (error) {
-    console.error("Failed to add custom badge to user, because", error);
+    console.error("Failed to add custom remark to user, because", error);
     await msg.answerText(i18n.userCustomRemarkAdmin.failedToAssignTryAgain);
   }
 
@@ -363,7 +363,7 @@ async function handleTakeoffBadgeInput(
         ${String(remarkInfo.id)}) → <a href="${user.link}">${username}</a> (ID: ${String(user.id)})`,
     );
   } catch (error) {
-    console.error("Failed to take off custom badge from user, because", error);
+    console.error("Failed to take off custom remark from user, because", error);
     await msg.answerText(i18n.userCustomRemarkAdmin.failedToAssignTryAgain);
   }
 

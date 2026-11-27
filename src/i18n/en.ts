@@ -38,7 +38,7 @@ export default {
     reviews: "reviews",
     reports: "Reports",
     trophiesInfo: "Trophy info",
-    customBadge: "Custom badge",
+    customBadge: "custom remark",
     isBanned: {
       main: "Banned",
       false: "No",
@@ -137,7 +137,6 @@ export default {
     back: "Back",
     unknownError: "Unknown error",
     forbidden: "Access denied",
-    pcs: "pcs",
     thinking: "Thinking...",
   },
   nav: {

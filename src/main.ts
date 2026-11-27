@@ -19,8 +19,8 @@ import { PostView } from "./modules/post/view.ts";
 import { UserTrophiesButton } from "./modules/user-trophies/keyboard.ts";
 import { UserTrophiesView } from "./modules/user-trophies/view.ts";
 import { initPrivateDM } from "./modules-private/dm.ts";
-import { UserCustomBadgeAdmin } from "./modules/remark/view.ts";
-import { handleBadgeInput, registerUserCustomBadgeButtons } from "./modules/remark/events.ts";
+import { RemarkAdmin } from "./modules/remark/view.ts";
+import { handleBadgeInput, registerRemarkButtons } from "./modules/remark/events.ts";
 
 const transport = getTransport();
 
@@ -90,7 +90,7 @@ dp.onCallbackQuery(PostButton.filter({ action: "info" }), async (upd) => {
   );
 });
 
-registerUserCustomBadgeButtons(dp);
+registerRemarkButtons(dp);
 
 dp.onNewMessage(selectedGroupFilter, async (msg) => {
   const links = extractForumLinks(msg.textWithEntities);
@@ -125,7 +125,7 @@ dp.onNewMessage(selectedGroupFilter, async (msg) => {
 });
 
 dp.onNewMessage(filters.and(adminFilter, dmFilter, filters.command("admin")), async (msg) => {
-  const message = await UserCustomBadgeAdmin.getPanel();
+  const message = await RemarkAdmin.getList();
   if (!message) {
     return;
   }

@@ -14,35 +14,12 @@ import { buildNav, PAGE_SIZE } from "../../core/nav";
 import { UserService } from "../user/service";
 import { RemarkService } from "./service";
 
-export abstract class UserCustomBadgeAdmin {
-  static async getPanel(): Promise<LinkView> {
-    return {
-      message: html`<b>${i18n.userCustomRemarkAdmin.main}</b>`,
-      keyboard: BotKeyboard.inline([
-        [
-          BotKeyboard.callback(
-            i18n.userCustomRemarkAdmin.create,
-            RemarkStaticButton.build({
-              action: "create",
-            }),
-          ),
-          BotKeyboard.callback(
-            i18n.userCustomRemarkAdmin.list,
-            RemarkListButton.build({
-              offset: "0",
-            }),
-          ),
-        ],
-      ]),
-    };
-  }
-
+export abstract class RemarkAdmin {
   static async getUserListByBadge(remarkId: number, offset: number = 0): Promise<LinkView> {
     const { users, hasNext } = await RemarkService.getUsersByRemarkId(remarkId, offset, PAGE_SIZE);
 
     return {
-      message: html`<b>${i18n.userCustomRemarkAdmin.userList}</b>: ${String(users.length)}
-        ${i18n.shared.pcs}`,
+      message: html`<b>${i18n.userCustomRemarkAdmin.userList}</b>`,
       keyboard: buildNav(
         users.map((user) => {
           return BotKeyboard.callback(
@@ -78,8 +55,8 @@ export abstract class UserCustomBadgeAdmin {
     }
 
     return {
-      message: html`<b>${i18n.userCustomRemarkAdmin.remarkInfo}</b> #${remark.id}<br />
-        ${remark.name}`,
+      message: html`<b>${i18n.userCustomRemarkAdmin.remarkInfo}</b>
+        #${remark.id}<br />"${remark.name}"`,
       keyboard: BotKeyboard.inline([
         [
           BotKeyboard.callback(
@@ -94,7 +71,7 @@ export abstract class UserCustomBadgeAdmin {
           BotKeyboard.callback(
             i18n.userCustomRemarkAdmin.takeoffRemark,
             RemarkActionButton.build({
-              action: "takeoff_badge",
+              action: "takeoff_remark",
               id: String(remark.id),
             }),
           ),
@@ -112,7 +89,7 @@ export abstract class UserCustomBadgeAdmin {
           BotKeyboard.callback(
             i18n.userCustomRemarkAdmin.delete,
             RemarkActionButton.build({
-              action: "delete_badge",
+              action: "delete_remark",
               id: String(remark.id),
             }),
           ),
@@ -183,29 +160,36 @@ export abstract class UserCustomBadgeAdmin {
     const hasNext = rawRemarks.length > PAGE_SIZE;
     const remarks = hasNext ? rawRemarks.slice(0, PAGE_SIZE) : rawRemarks;
 
-    return {
-      message: html`<b>${i18n.userCustomRemarkAdmin.list}</b>: ${String(remarks.length)}
-        ${i18n.shared.pcs}`,
-      keyboard: buildNav(
-        remarks.map((remark) =>
-          BotKeyboard.callback(
-            `#${remark.id}`,
-            RemarkActionButton.build({
-              action: "view",
-              id: String(remark.id),
-            }),
-          ),
-        ),
-        {
-          offset,
-          hasNext,
-          callbackBuilder: RemarkListButton,
-          callbackData: {},
-          backButtonCb: RemarkStaticButton.build({
-            action: "back",
+    const listKeyboard = buildNav(
+      remarks.map((remark) =>
+        BotKeyboard.callback(
+          `"${remark.name}"`,
+          RemarkActionButton.build({
+            action: "view",
+            id: String(remark.id),
           }),
-        },
+        ),
       ),
+      {
+        offset,
+        hasNext,
+        callbackBuilder: RemarkListButton,
+        callbackData: {},
+      },
+    );
+
+    listKeyboard.buttons.push([
+      BotKeyboard.callback(
+        i18n.userCustomRemarkAdmin.create,
+        RemarkStaticButton.build({
+          action: "create",
+        }),
+      ),
+    ]);
+
+    return {
+      message: html`<b>${i18n.userCustomRemarkAdmin.list}</b>`,
+      keyboard: listKeyboard,
     };
   }
 }

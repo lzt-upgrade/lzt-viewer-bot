@@ -12,6 +12,7 @@ export type NavOptions = {
 };
 
 export const PAGE_SIZE = 10;
+export const ROW_SIZE = 2;
 
 export const buildNav = (
   contentButtons: CallbackButton[],
@@ -25,8 +26,15 @@ export const buildNav = (
   }: NavOptions,
 ) => {
   const keyboard = [];
+  for (let i = 0; i < contentButtons.length; i += ROW_SIZE) {
+    const pageButtons = contentButtons.slice(i, i + ROW_SIZE);
+    keyboard.push(pageButtons);
+  }
+
+  const nextOffset = offset + pageSize;
+  const navButtons = [];
   if (offset) {
-    keyboard.push([
+    navButtons.push(
       BotKeyboard.callback(
         i18n.nav.prev,
         callbackBuilder.build({
@@ -34,13 +42,10 @@ export const buildNav = (
           ...callbackData,
         }),
       ),
-    ]);
+    );
   }
-
-  keyboard.push(contentButtons);
-  const nextOffset = offset + pageSize;
   if (hasNext) {
-    keyboard.push([
+    navButtons.push(
       BotKeyboard.callback(
         i18n.nav.next,
         callbackBuilder.build({
@@ -48,7 +53,11 @@ export const buildNav = (
           ...callbackData,
         }),
       ),
-    ]);
+    );
+  }
+
+  if (offset || hasNext) {
+    keyboard.push(navButtons);
   }
 
   if (backButtonCb) {
